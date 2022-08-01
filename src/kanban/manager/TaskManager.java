@@ -1,57 +1,75 @@
+package kanban.manager;
+
+import kanban.tasks.Epic;
+import kanban.tasks.Task;
+import kanban.tasks.state.Status;
+import kanban.tasks.Subtask;
+
 import java.util.HashMap;
 
 public class TaskManager {
-    private volatile static TaskManager uniqueInstance;
-    HashMap<Long, Task> tasks = new HashMap<>();
-    HashMap<Long, Epic> epics = new HashMap<>();
-    HashMap<Long, Subtask> subtasks = new HashMap<>();
-    HashMap<Long, Task> archive = new HashMap<>();
+    private static TaskManager uniqueInstance;
+    protected final HashMap<Long, Task> tasks = new HashMap<>();
+    protected final HashMap<Long, Epic> epics = new HashMap<>();
+    protected final HashMap<Long, Subtask> subtasks = new HashMap<>();
+    protected final HashMap<Long, Task> archive = new HashMap<>();
 
-    protected static long idGenerator;
-    Status status;
+    private long idGenerator;
 
     private TaskManager() {
     }
 
     public static TaskManager getInstance() {
         if (uniqueInstance == null) {
-            synchronized (TaskManager.class) {
-                if (uniqueInstance == null) {
-                    uniqueInstance = new TaskManager();
-                }
-            }
+            uniqueInstance = new TaskManager();
         }
         return uniqueInstance;
     }
 
+    public HashMap<Long, Task> getTasks() {
+        return tasks;
+    }
+
+    public HashMap<Long, Epic> getEpics() {
+        return epics;
+    }
+
+    public HashMap<Long, Subtask> getSubtasks() {
+        return subtasks;
+    }
+
+    public HashMap<Long, Task> getArchive() {
+        return archive;
+    }
+
     //создание таска
     public Task createTask(Task task) {
-        status = Status.NEW;
-        task.id = ++idGenerator;
-        tasks.put(task.id, task);
+        task.setStatus(Status.NEW);
+        task.setId(++idGenerator);
+        tasks.put(task.getId(), task);
         return task;
     }
 
     //создание сабтаска
     public Subtask createSubTask(Subtask subtask) {
-        status = Status.NEW;
-        subtask.id = ++idGenerator;
-        subtasks.put(subtask.id, subtask);
+        subtask.setStatus(Status.NEW);
+        subtask.setId(++idGenerator);
+        subtasks.put(subtask.getId(), subtask);
         return subtask;
     }
 
     //создание эпика
     public Epic createEpic(Epic epic) {
-        status = Status.NEW;
-        epic.id = ++idGenerator;
-        epics.put(epic.id, epic);
+        epic.setStatus(Status.NEW);
+        epic.setId(++idGenerator);
+        epics.put(epic.getId(), epic);
         return epic;
     }
 
     //добавление сабтаска в эпик
     public Epic addSubtaskToEpic(Epic epic, Subtask subtask) {
-        status = Status.NEW;
-        epic.getIDsOfSubtasks().add(subtask.id);
+        subtask.setStatus(Status.NEW);
+        epic.getIDsOfSubtasks().add(subtask.getId());
         subtask.setEpicID(epic.getId());
         return epic;
     }
@@ -59,15 +77,15 @@ public class TaskManager {
     //удаление сабтаска из эпика и добавление эпика в архив
     public Epic deleteSubtaskFromEpic(Epic epic, Subtask subtask) {
         deleteSubtask(subtask);
-        epic.getIDsOfSubtasks().remove(subtask.id);
+        epic.getIDsOfSubtasks().remove(subtask.getId());
 
         //переключение статуса эпика в DONE если список сабтасков пуст
         if (epic.getIDsOfSubtasks().isEmpty()) {
-            status = Status.DONE;
+            epic.setStatus(Status.DONE);
         }
 
         //удаление эпика из маппы эпиков если все сабтаски выполнены
-        if (status == Status.DONE) {
+        if (epic.getStatus() == Status.DONE) {
             archive.put(epic.getId(), epic);
             epics.remove(epic.getId(), epic);
         }
@@ -76,7 +94,7 @@ public class TaskManager {
 
     //удаление сабтаска и добавление в архив
     private Subtask deleteSubtask(Subtask subtask) {
-        status = Status.DONE;
+        subtask.setStatus(Status.DONE);
         archive.put(subtask.getId(), subtask);
         subtasks.remove(subtask.getId(), subtask);
         return subtask;
@@ -84,7 +102,7 @@ public class TaskManager {
 
     //переключение таска в DONE, удаление из маппы и добавление в архив
     public Task deleteTask(Task task) {
-        status = Status.DONE;
+        task.setStatus(Status.DONE);
         archive.put(task.getId(), task);
         tasks.remove(task.getId(), task);
         return task;
@@ -137,7 +155,7 @@ public class TaskManager {
 
     //обновление таска
     public void updateTask(Task task) {
-        status = Status.IN_PROGRESS;
+        task.setStatus(Status.IN_PROGRESS);
         long id = task.getId();
         Task currentTask = tasks.get(id);
         if (currentTask == null) {
@@ -149,7 +167,7 @@ public class TaskManager {
 
     //обновление сабтаска
     public void updateSubtask(Subtask subtask) {
-        status = Status.IN_PROGRESS;
+        subtask.setStatus(Status.IN_PROGRESS);
         long id = subtask.getId();
         Subtask currentSubtask = subtasks.get(id);
         if (currentSubtask == null) {
@@ -161,7 +179,7 @@ public class TaskManager {
 
     //обновление эпика
     public void updateEpic(Epic epic) {
-        status = Status.IN_PROGRESS;
+        epic.setStatus(Status.IN_PROGRESS);
         long id = epic.getId();
         Epic currentEpic = epics.get(id);
         if (currentEpic == null) {

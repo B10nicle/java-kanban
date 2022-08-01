@@ -1,18 +1,23 @@
-class Subtask extends Task {
+package kanban.tasks;
+
+public class Subtask extends Task {
     private long epicID;
 
     public Subtask(String name, String description) {
         super(name, description);
     }
 
-    @Override
-    public long getId() {
-        return id;
+    public long getEpicID() {
+        return epicID;
+    }
+
+    public void setEpicID(long epicID) {
+        this.epicID = epicID;
     }
 
     @Override
     public String toString() {
-        return "Subtask{" +
+        return "Kanban.Subtask{" +
                 "epicID=" + epicID +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -36,13 +41,5 @@ class Subtask extends Task {
         int result = super.hashCode();
         result = 31 * result + (int) (epicID ^ (epicID >>> 32));
         return result;
-    }
-
-    public long getEpicID() {
-        return epicID;
-    }
-
-    public void setEpicID(long epicID) {
-        this.epicID = epicID;
     }
 }

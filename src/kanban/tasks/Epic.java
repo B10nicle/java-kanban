@@ -1,15 +1,25 @@
+package kanban.tasks;
+
 import java.util.ArrayList;
 
-class Epic extends Task {
-    private final ArrayList<Long> IDsOfSubtasks = new ArrayList<>();
+public class Epic extends Task {
+    private ArrayList<Long> IDsOfSubtasks = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(name, description);
     }
 
+    public ArrayList<Long> getIDsOfSubtasks() {
+        return IDsOfSubtasks;
+    }
+
+    public void setIDsOfSubtasks(ArrayList<Long> IDsOfSubtasks) {
+        this.IDsOfSubtasks = IDsOfSubtasks;
+    }
+
     @Override
     public String toString() {
-        return "Epic{" +
+        return "Kanban.Epic{" +
                 "IDsOfSubtasks=" + IDsOfSubtasks +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -33,9 +43,5 @@ class Epic extends Task {
         int result = super.hashCode();
         result = 31 * result + (getIDsOfSubtasks() != null ? getIDsOfSubtasks().hashCode() : 0);
         return result;
-    }
-
-    public ArrayList<Long> getIDsOfSubtasks() {
-        return IDsOfSubtasks;
     }
 }
