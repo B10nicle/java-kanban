@@ -22,6 +22,7 @@ public class Subtask extends Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
+                ", status=" + status +
                 '}';
     }
 

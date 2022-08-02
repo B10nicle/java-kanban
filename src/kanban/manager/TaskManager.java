@@ -8,23 +8,12 @@ import kanban.tasks.Subtask;
 import java.util.HashMap;
 
 public class TaskManager {
-    private static TaskManager uniqueInstance;
     protected final HashMap<Long, Task> tasks = new HashMap<>();
     protected final HashMap<Long, Epic> epics = new HashMap<>();
     protected final HashMap<Long, Subtask> subtasks = new HashMap<>();
     protected final HashMap<Long, Task> archive = new HashMap<>();
 
     private long idGenerator;
-
-    private TaskManager() {
-    }
-
-    public static TaskManager getInstance() {
-        if (uniqueInstance == null) {
-            uniqueInstance = new TaskManager();
-        }
-        return uniqueInstance;
-    }
 
     public HashMap<Long, Task> getTasks() {
         return tasks;

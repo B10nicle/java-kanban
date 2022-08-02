@@ -17,13 +17,18 @@ public class Epic extends Task {
         this.IDsOfSubtasks = IDsOfSubtasks;
     }
 
+
+    // Эркин, добавил, но получается что IDsOfSubtasks == subtasks по передаваемой информации.
+    // Могу удалить, например, IDsOfSubtasks чтобы информация не дублировать в методе.
     @Override
     public String toString() {
-        return "Kanban.Epic{" +
+        return "Epic{" +
                 "IDsOfSubtasks=" + IDsOfSubtasks +
+                ", subtasks=" + getIDsOfSubtasks() +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
+                ", status=" + status +
                 '}';
     }
 

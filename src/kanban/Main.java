@@ -7,7 +7,7 @@ import kanban.tasks.Task;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = TaskManager.getInstance();
+        TaskManager taskManager = new TaskManager();
 
         System.out.println("Создание тасков:");
         Task task1 = new Task("Отдых", "Отдых");
