@@ -1,4 +1,4 @@
-package kanban.tasks.state;
+package kanban.task.state;
 
 public enum Status {
     NEW,

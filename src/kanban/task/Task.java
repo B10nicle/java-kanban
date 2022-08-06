@@ -1,6 +1,8 @@
-package kanban.tasks;
+package kanban.task;
 
-import kanban.tasks.state.Status;
+import kanban.task.state.Status;
+
+import java.util.Objects;
 
 public class Task {
     protected String name;
@@ -60,18 +62,16 @@ public class Task {
         if (this == o) return true;
         if (!(o instanceof Task)) return false;
 
-        Task task = (Task) o;
+        Task that = (Task) o;
 
-        if (getId() != task.getId()) return false;
-        if (getName() != null ? !getName().equals(task.getName()) : task.getName() != null) return false;
-        return getDescription() != null ? getDescription().equals(task.getDescription()) : task.getDescription() == null;
+        return Objects.equals(this.name, that.name)
+                && Objects.equals(this.description, that.description)
+                && Objects.equals(this.id, that.id)
+                && Objects.equals(this.status, that.status);
     }
 
     @Override
     public int hashCode() {
-        int result = getName() != null ? getName().hashCode() : 0;
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + (int) (getId() ^ (getId() >>> 32));
-        return result;
+        return Objects.hash(name, description, id, status);
     }
 }

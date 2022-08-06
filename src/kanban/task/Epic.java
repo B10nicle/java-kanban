@@ -1,8 +1,9 @@
-package kanban.tasks;
+package kanban.task;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class Epic extends Task {
+public class Epic extends Task{
     private ArrayList<Long> IDsOfSubtasks = new ArrayList<>();
 
     public Epic(String name, String description) {
@@ -17,14 +18,10 @@ public class Epic extends Task {
         this.IDsOfSubtasks = IDsOfSubtasks;
     }
 
-
-    // Эркин, добавил, но получается что IDsOfSubtasks == subtasks по передаваемой информации.
-    // Могу удалить, например, IDsOfSubtasks чтобы информация не дублировать в методе.
     @Override
     public String toString() {
-        return "Epic{" +
-                "IDsOfSubtasks=" + IDsOfSubtasks +
-                ", subtasks=" + getIDsOfSubtasks() +
+        return "Kanban.Epic{" +
+                "subtasks=" + IDsOfSubtasks +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
@@ -38,15 +35,13 @@ public class Epic extends Task {
         if (!(o instanceof Epic)) return false;
         if (!super.equals(o)) return false;
 
-        Epic epic = (Epic) o;
+        Epic that = (Epic) o;
 
-        return getIDsOfSubtasks() != null ? getIDsOfSubtasks().equals(epic.getIDsOfSubtasks()) : epic.getIDsOfSubtasks() == null;
+        return Objects.equals(this.IDsOfSubtasks, that.IDsOfSubtasks);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (getIDsOfSubtasks() != null ? getIDsOfSubtasks().hashCode() : 0);
-        return result;
+        return Objects.hash(IDsOfSubtasks);
     }
 }

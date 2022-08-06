@@ -1,4 +1,6 @@
-package kanban.tasks;
+package kanban.task;
+
+import java.util.Objects;
 
 public class Subtask extends Task {
     private long epicID;
@@ -32,15 +34,13 @@ public class Subtask extends Task {
         if (!(o instanceof Subtask)) return false;
         if (!super.equals(o)) return false;
 
-        Subtask subtask = (Subtask) o;
+        Subtask that = (Subtask) o;
 
-        return epicID == subtask.epicID;
+        return Objects.equals(this.epicID, that.epicID);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (int) (epicID ^ (epicID >>> 32));
-        return result;
+        return Objects.hash(epicID);
     }
 }
