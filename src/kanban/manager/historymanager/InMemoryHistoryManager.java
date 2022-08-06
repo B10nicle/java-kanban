@@ -2,10 +2,15 @@ package kanban.manager.historymanager;
 
 import kanban.task.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    HistoryManager historyManager;
+    private final List<Task> historyManager;
+
+    public InMemoryHistoryManager() {
+        this.historyManager = new ArrayList<>();
+    }
 
     //добавление таска
     @Override
@@ -16,6 +21,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     //получение истории
     @Override
     public List<Task> getHistory() {
-        return historyManager.getHistory();
+        return historyManager;
     }
 }

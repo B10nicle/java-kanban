@@ -1,13 +1,16 @@
 package kanban.task;
 
+import kanban.task.enums.Status;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Epic extends Task{
-    private ArrayList<Long> IDsOfSubtasks = new ArrayList<>();
+public class Epic extends Task {
+    private ArrayList<Long> IDsOfSubtasks;
 
-    public Epic(String name, String description) {
-        super(name, description);
+    public Epic(String name, String description, Status status) {
+        super(name, description, status);
+        this.IDsOfSubtasks = new ArrayList<>();
     }
 
     public ArrayList<Long> getIDsOfSubtasks() {

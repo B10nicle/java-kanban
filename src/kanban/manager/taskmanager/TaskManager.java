@@ -4,8 +4,6 @@ import kanban.task.Epic;
 import kanban.task.Subtask;
 import kanban.task.Task;
 
-import java.util.Map;
-
 public interface TaskManager {
     //создание таска
     Task createTask(Task task);
@@ -32,13 +30,13 @@ public interface TaskManager {
     Task deleteTask(Task task);
 
     //печать списка всех тасков
-    void printAllTasks(Map<Long, Task> tasks);
+    void printAllTasks();
 
     //печать списка всех сабтасков
-    void printAllSubtasks(Map<Long, Subtask> subtasks);
+    void printAllSubtasks();
 
     //печать списка всех эпиков
-    void printAllEpics(Map<Long, Epic> epics);
+    void printAllEpics();
 
     //обновление таска
     void updateTask(Task task);

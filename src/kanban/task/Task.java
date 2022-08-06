@@ -1,6 +1,6 @@
 package kanban.task;
 
-import kanban.task.state.Status;
+import kanban.task.enums.Status;
 
 import java.util.Objects;
 
@@ -10,9 +10,10 @@ public class Task {
     protected long id;
     protected Status status;
 
-    public Task(String name, String description) {
+    public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
+        this.status = status;
     }
 
     public String getName() {
