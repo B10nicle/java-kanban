@@ -2,6 +2,7 @@ package kanban.manager.taskmanager;
 
 import kanban.manager.Managers;
 import kanban.manager.historymanager.HistoryManager;
+import kanban.manager.historymanager.InMemoryHistoryManager;
 import kanban.task.Epic;
 import kanban.task.Task;
 import kanban.task.enums.Status;
@@ -41,10 +42,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task createTask(Task task) {
         task.setId(++idGenerator);
         tasks.put(task.getId(), task);
-        historyManager.getHistory().add(task);
-        if (historyManager.getHistory().size() > 10) {
-            historyManager.getHistory().remove(0);
-        }
+        historyManager.add(task);
         return task;
     }
 
@@ -53,10 +51,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask createSubTask(Subtask subtask) {
         subtask.setId(++idGenerator);
         subtasks.put(subtask.getId(), subtask);
-        historyManager.getHistory().add(subtask);
-        if (historyManager.getHistory().size() > 10) {
-            historyManager.getHistory().remove(0);
-        }
+        historyManager.add(subtask);
         return subtask;
     }
 
@@ -65,10 +60,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic createEpic(Epic epic) {
         epic.setId(++idGenerator);
         epics.put(epic.getId(), epic);
-        historyManager.getHistory().add(epic);
-        if (historyManager.getHistory().size() > 10) {
-            historyManager.getHistory().remove(0);
-        }
+        historyManager.add(epic);
         return epic;
     }
 
@@ -82,71 +74,92 @@ public class InMemoryTaskManager implements TaskManager {
 
     //удаление сабтаска из эпика
     @Override
-    public Epic deleteSubtaskFromEpic(Epic epic, Subtask subtask) {
+    public void deleteSubtaskFromEpic(Epic epic, Subtask subtask) {
         deleteSubtask(subtask);
         epic.getIDsOfSubtasks().remove(subtask.getId());
+        System.out.println("Сабтаск №" + subtask.getId() + " удалён из эпика №" + epic.getId());
         if (epic.getStatus() == Status.DONE) {
             epics.remove(epic.getId(), epic);
         }
-        return epic;
     }
 
     //удаление эпика из маппы эпиков если список сабтасков пуст
     @Override
-    public Epic deleteSubtaskFromEpic(Epic epic) {
+    public void deleteSubtaskFromEpic(Epic epic) {
         if (epic.getStatus() == Status.DONE) {
             epics.remove(epic.getId(), epic);
+            System.out.println("Эпик №" + epic.getId() + " удалён");
         }
-        return epic;
     }
 
     //удаление сабтаска
     @Override
-    public Subtask deleteSubtask(Subtask subtask) {
+    public void deleteSubtask(Subtask subtask) {
         subtasks.remove(subtask.getId(), subtask);
-        return subtask;
+        System.out.println("Сабтаск №" + subtask.getId() + " удалён");
     }
 
     //удаление таска
     @Override
-    public Task deleteTask(Task task) {
+    public void deleteTask(Task task) {
         tasks.remove(task.getId(), task);
-        return task;
+        System.out.println("Таск №" + task.getId() + " удалён");
+    }
+
+    //удаление всех тасков
+    @Override
+    public void deleteAllTasks() {
+        tasks.clear();
+        System.out.println("Удалены все таски");
+    }
+
+    //удаление всех сабтасков
+    @Override
+    public void deleteAllSubtasks() {
+        subtasks.clear();
+        System.out.println("Удалены все сабтаски");
+    }
+
+    //удаление всех эпиков
+    @Override
+    public void deleteAllEpics() {
+        epics.clear();
+        System.out.println("Удалены все эпики");
     }
 
     //печать списка всех тасков
     @Override
     public void printAllTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("Список тасков пуст.");
+        }
         for (Long id : tasks.keySet()) {
             Task value = tasks.get(id);
             System.out.println("№" + id + " " + value);
-        }
-        if (tasks.isEmpty()) {
-            System.out.println("Список тасков пуст.");
         }
     }
 
     //печать списка всех сабтасков
     @Override
     public void printAllSubtasks() {
+        if (subtasks.isEmpty()) {
+            System.out.println("Список сабтасков пуст.");
+        }
         for (Long id : subtasks.keySet()) {
             Subtask value = subtasks.get(id);
             System.out.println("№" + id + " " + value);
-        }
-        if (subtasks.isEmpty()) {
-            System.out.println("Список сабтасков пуст.");
         }
     }
 
     //печать списка всех эпиков
     @Override
     public void printAllEpics() {
+        if (epics.isEmpty()) {
+            System.out.println("Список эпиков пуст.");
+        }
         for (Long id : epics.keySet()) {
             Epic value = epics.get(id);
             System.out.println("№" + id + " " + value);
-        }
-        if (epics.isEmpty()) {
-            System.out.println("Список эпиков пуст.");
         }
     }
 

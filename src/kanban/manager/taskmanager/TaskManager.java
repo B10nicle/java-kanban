@@ -18,16 +18,25 @@ public interface TaskManager {
     Epic addSubtaskToEpic(Epic epic, Subtask subtask);
 
     //удаление сабтаска из эпика
-    Epic deleteSubtaskFromEpic(Epic epic, Subtask subtask);
+    void deleteSubtaskFromEpic(Epic epic, Subtask subtask);
 
     //удаление эпика из маппы эпиков если список сабтасков пуст
-    Epic deleteSubtaskFromEpic(Epic epic);
+    void deleteSubtaskFromEpic(Epic epic);
 
     //удаление сабтаска
-    Subtask deleteSubtask(Subtask subtask);
+    void deleteSubtask(Subtask subtask);
 
-    //переключение таска в DONE, удаление из маппы
-    Task deleteTask(Task task);
+    //удаление таска
+    void deleteTask(Task task);
+
+    //удаление всех тасков
+    void deleteAllTasks();
+
+    //удаление всех сабтасков
+    void deleteAllSubtasks();
+
+    //удаление всех эпиков
+    void deleteAllEpics();
 
     //печать списка всех тасков
     void printAllTasks();
