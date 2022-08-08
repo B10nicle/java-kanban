@@ -25,14 +25,20 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = Managers.getDefaultHistory();
     }
 
+    //получение мапы всех тасков
+    @Override
     public Map<Integer, Task> getTasks() {
         return tasks;
     }
 
+    //получение мапы всех эпиков
+    @Override
     public Map<Integer, Epic> getEpics() {
         return epics;
     }
 
+    //получение мапы всех сабтасков
+    @Override
     public Map<Integer, Subtask> getSubtasks() {
         return subtasks;
     }

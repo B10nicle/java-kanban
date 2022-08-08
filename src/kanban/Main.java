@@ -67,6 +67,5 @@ public class Main {
         taskManager.deleteEpic(epic1.getId());
 
         taskManager.deleteAllTasksEpicsSubtasks();
-
     }
 }

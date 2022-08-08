@@ -5,8 +5,19 @@ import kanban.task.Subtask;
 import kanban.task.Task;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TaskManager {
+
+    //получение мапы всех тасков
+    Map<Integer, Task> getTasks();
+
+    //получение мапы всех эпиков
+    Map<Integer, Epic> getEpics();
+
+    //получение мапы всех сабтасков
+    Map<Integer, Subtask> getSubtasks();
+
     //создание таска
     Task createTask(Task task);
 
