@@ -1,30 +1,36 @@
 package kanban.task;
 
-import kanban.task.enums.Status;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Epic extends Task {
-    private ArrayList<Long> IDsOfSubtasks;
+    private ArrayList<Integer> subtasks;
 
-    public Epic(String name, String description, Status status) {
-        super(name, description, status);
-        this.IDsOfSubtasks = new ArrayList<>();
+    public Epic(String name, String description) {
+        super(name, description);
+        this.subtasks = new ArrayList<>();
     }
 
-    public ArrayList<Long> getIDsOfSubtasks() {
-        return IDsOfSubtasks;
+    public ArrayList<Integer> getSubtasks() {
+        return subtasks;
     }
 
-    public void setIDsOfSubtasks(ArrayList<Long> IDsOfSubtasks) {
-        this.IDsOfSubtasks = IDsOfSubtasks;
+    public void setSubtasks(ArrayList<Integer> subtasks) {
+        this.subtasks = subtasks;
+    }
+
+    public void addSubtask(Subtask subtask) {
+        subtasks.add(subtask.getId());
+    }
+
+    public void removeSubtask(Subtask subtask) {
+        subtasks.remove(subtask.getId());
     }
 
     @Override
     public String toString() {
         return "Kanban.Epic{" +
-                "subtasks=" + IDsOfSubtasks +
+                "subtasks=" + subtasks +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
@@ -40,11 +46,11 @@ public class Epic extends Task {
 
         Epic that = (Epic) o;
 
-        return Objects.equals(this.IDsOfSubtasks, that.IDsOfSubtasks);
+        return Objects.equals(this.subtasks, that.subtasks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(IDsOfSubtasks);
+        return Objects.hash(subtasks);
     }
 }

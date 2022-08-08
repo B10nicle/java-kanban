@@ -7,13 +7,13 @@ import java.util.Objects;
 public class Task {
     protected String name;
     protected String description;
-    protected long id;
+    protected int id;
     protected Status status;
 
-    public Task(String name, String description, Status status) {
+    public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = status;
+        this.status = Status.NEW;
     }
 
     public String getName() {
@@ -32,11 +32,11 @@ public class Task {
         this.description = description;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

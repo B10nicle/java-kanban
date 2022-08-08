@@ -1,21 +1,20 @@
 package kanban.task;
 
-import kanban.task.enums.Status;
-
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private long epicID;
+    private int epicID;
 
-    public Subtask(String name, String description, Status status) {
-        super(name, description, status);
+    public Subtask(String name, String description, int epicID) {
+        super(name, description);
+        this.epicID = epicID;
     }
 
-    public long getEpicID() {
+    public int getEpicID() {
         return epicID;
     }
 
-    public void setEpicID(long epicID) {
+    public void setEpicID(int epicID) {
         this.epicID = epicID;
     }
 

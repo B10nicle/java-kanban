@@ -4,39 +4,29 @@ import kanban.task.Epic;
 import kanban.task.Subtask;
 import kanban.task.Task;
 
+import java.util.List;
+
 public interface TaskManager {
     //создание таска
     Task createTask(Task task);
 
     //создание сабтаска
-    Subtask createSubTask(Subtask subtask);
+    Subtask createSubtask(Subtask subtask);
 
     //создание эпика
     Epic createEpic(Epic epic);
 
-    //добавление сабтаска в эпик
-    Epic addSubtaskToEpic(Epic epic, Subtask subtask);
-
-    //удаление сабтаска из эпика
-    void deleteSubtaskFromEpic(Epic epic, Subtask subtask);
-
-    //удаление эпика из маппы эпиков если список сабтасков пуст
-    void deleteSubtaskFromEpic(Epic epic);
+    //удаление эпика
+    void deleteEpic(int epicID);
 
     //удаление сабтаска
-    void deleteSubtask(Subtask subtask);
+    void deleteSubtask(int id);
 
     //удаление таска
-    void deleteTask(Task task);
+    void deleteTask(int id);
 
-    //удаление всех тасков
-    void deleteAllTasks();
-
-    //удаление всех сабтасков
-    void deleteAllSubtasks();
-
-    //удаление всех эпиков
-    void deleteAllEpics();
+    //удаление всех тасков, эпиков и сабтасков
+    void deleteAllTasksEpicsSubtasks();
 
     //печать списка всех тасков
     void printAllTasks();
@@ -55,4 +45,16 @@ public interface TaskManager {
 
     //обновление эпика
     void updateEpic(Epic epic);
+
+    //запрос таска
+    Task getTask(int id);
+
+    //запрос сабтаска
+    Subtask getSubtask(int id);
+
+    //запрос эпика
+    Epic getEpic(int id);
+
+    //получение истории
+    List<Task> getHistory();
 }
