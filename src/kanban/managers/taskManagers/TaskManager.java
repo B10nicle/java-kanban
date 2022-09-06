@@ -1,11 +1,15 @@
-package kanban.manager.taskmanager;
+package kanban.managers.taskManagers;
 
-import kanban.task.Epic;
-import kanban.task.Subtask;
-import kanban.task.Task;
+import kanban.tasks.Epic;
+import kanban.tasks.Subtask;
+import kanban.tasks.Task;
 
 import java.util.List;
 import java.util.Map;
+
+/**
+ * @author Oleg Khilko
+ */
 
 public interface TaskManager {
 
@@ -28,16 +32,16 @@ public interface TaskManager {
     Epic createEpic(Epic epic);
 
     //удаление эпика
-    void deleteEpic(int epicID);
+    void removeEpic(Integer epicID);
 
     //удаление сабтаска
-    void deleteSubtask(int id);
+    void removeSubtask(Integer id);
 
     //удаление таска
-    void deleteTask(int id);
+    void removeTask(Integer id);
 
     //удаление всех тасков, эпиков и сабтасков
-    void deleteAllTasksEpicsSubtasks();
+    void removeAllTasksEpicsSubtasks();
 
     //печать списка всех тасков
     void printAllTasks();
@@ -58,14 +62,15 @@ public interface TaskManager {
     void updateEpic(Epic epic);
 
     //запрос таска
-    Task getTask(int id);
+    Task getTask(Integer id);
 
     //запрос сабтаска
-    Subtask getSubtask(int id);
+    Subtask getSubtask(Integer id);
 
     //запрос эпика
-    Epic getEpic(int id);
+    Epic getEpic(Integer id);
 
     //получение истории
     List<Task> getHistory();
+
 }

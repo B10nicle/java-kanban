@@ -1,51 +1,48 @@
-package kanban.task;
+package kanban.tasks;
 
-import kanban.task.enums.Status;
+import kanban.tasks.enums.TaskState;
 
 import java.util.Objects;
 
+/**
+ * @author Oleg Khilko
+ */
+
 public class Task {
-    protected String name;
-    protected String description;
-    protected int id;
-    protected Status status;
+
+    protected final String name;
+    protected final String description;
+    protected Integer id;
+    protected TaskState taskState;
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = Status.NEW;
+        this.taskState = TaskState.NEW;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Status getStatus() {
-        return status;
+    public TaskState getTaskState() {
+        return taskState;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setTaskState(TaskState taskState) {
+        this.taskState = taskState;
     }
 
     @Override
@@ -54,12 +51,13 @@ public class Task {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", status=" + status +
+                ", status=" + taskState +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (!(o instanceof Task)) return false;
 
@@ -68,11 +66,12 @@ public class Task {
         return Objects.equals(this.name, that.name)
                 && Objects.equals(this.description, that.description)
                 && Objects.equals(this.id, that.id)
-                && Objects.equals(this.status, that.status);
+                && Objects.equals(this.taskState, that.taskState);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, id, status);
+        return Objects.hash(name, description, id, taskState);
     }
+
 }

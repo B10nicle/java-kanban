@@ -1,21 +1,22 @@
-package kanban.task;
+package kanban.tasks;
 
 import java.util.Objects;
 
-public class Subtask extends Task {
-    private int epicID;
+/**
+ * @author Oleg Khilko
+ */
 
-    public Subtask(String name, String description, int epicID) {
+public class Subtask extends Task {
+
+    private final Integer epicID;
+
+    public Subtask(String name, String description, Integer epicID) {
         super(name, description);
         this.epicID = epicID;
     }
 
-    public int getEpicID() {
+    public Integer getEpicID() {
         return epicID;
-    }
-
-    public void setEpicID(int epicID) {
-        this.epicID = epicID;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class Subtask extends Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", status=" + status +
+                ", status=" + taskState +
                 '}';
     }
 
@@ -44,4 +45,5 @@ public class Subtask extends Task {
     public int hashCode() {
         return Objects.hash(epicID);
     }
+
 }

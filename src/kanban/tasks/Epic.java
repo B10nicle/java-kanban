@@ -1,10 +1,15 @@
-package kanban.task;
+package kanban.tasks;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * @author Oleg Khilko
+ */
+
 public class Epic extends Task {
-    private ArrayList<Integer> subtasks;
+
+    private final ArrayList<Integer> subtasks;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -13,10 +18,6 @@ public class Epic extends Task {
 
     public ArrayList<Integer> getSubtasks() {
         return subtasks;
-    }
-
-    public void setSubtasks(ArrayList<Integer> subtasks) {
-        this.subtasks = subtasks;
     }
 
     public void addSubtask(Subtask subtask) {
@@ -34,7 +35,7 @@ public class Epic extends Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", status=" + status +
+                ", status=" + taskState +
                 '}';
     }
 
@@ -53,4 +54,5 @@ public class Epic extends Task {
     public int hashCode() {
         return Objects.hash(subtasks);
     }
+
 }
