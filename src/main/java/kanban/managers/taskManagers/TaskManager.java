@@ -13,64 +13,64 @@ import java.util.Map;
 
 public interface TaskManager {
 
-    //получение мапы всех тасков
+    // получение мапы всех тасков
     Map<Integer, Task> getTasks();
 
-    //получение мапы всех эпиков
+    // получение мапы всех эпиков
     Map<Integer, Epic> getEpics();
 
-    //получение мапы всех сабтасков
+    // получение мапы всех сабтасков
     Map<Integer, Subtask> getSubtasks();
 
-    //создание таска
+    // создание таска
     Task createTask(Task task);
 
-    //создание сабтаска
+    // создание сабтаска
     Subtask createSubtask(Subtask subtask);
 
-    //создание эпика
+    // создание эпика
     Epic createEpic(Epic epic);
 
-    //удаление эпика
+    // удаление эпика
     void removeEpic(Integer epicID);
 
-    //удаление сабтаска
+    // удаление сабтаска
     void removeSubtask(Integer id);
 
-    //удаление таска
+    // удаление таска
     void removeTask(Integer id);
 
-    //удаление всех тасков, эпиков и сабтасков
+    // удаление всех тасков, эпиков и сабтасков
     void removeAllTasksEpicsSubtasks();
 
-    //печать списка всех тасков
+    // печать списка всех тасков
     void printAllTasks();
 
-    //печать списка всех сабтасков
+    // печать списка всех сабтасков
     void printAllSubtasks();
 
-    //печать списка всех эпиков
+    // печать списка всех эпиков
     void printAllEpics();
 
-    //обновление таска
+    // обновление таска
     void updateTask(Task task);
 
-    //обновление сабтаска
+    // обновление сабтаска
     void updateSubtask(Subtask subtask);
 
-    //обновление эпика
+    // обновление эпика
     void updateEpic(Epic epic);
 
-    //запрос таска
+    // запрос таска
     Task getTask(Integer id);
 
-    //запрос сабтаска
+    // запрос сабтаска
     Subtask getSubtask(Integer id);
 
-    //запрос эпика
+    // запрос эпика
     Epic getEpic(Integer id);
 
-    //получение истории
+    // получение истории
     List<Task> getHistory();
 
 }

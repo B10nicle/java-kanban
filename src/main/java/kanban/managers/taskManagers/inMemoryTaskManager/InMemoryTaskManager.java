@@ -35,25 +35,25 @@ public class InMemoryTaskManager implements TaskManager {
         return ++id;
     }
 
-    //получение мапы всех тасков
+    // получение мапы всех тасков
     @Override
     public Map<Integer, Task> getTasks() {
         return tasks;
     }
 
-    //получение мапы всех эпиков
+    // получение мапы всех эпиков
     @Override
     public Map<Integer, Epic> getEpics() {
         return epics;
     }
 
-    //получение мапы всех сабтасков
+    // получение мапы всех сабтасков
     @Override
     public Map<Integer, Subtask> getSubtasks() {
         return subtasks;
     }
 
-    //запрос таска
+    // запрос таска
     @Override
     public Task getTask(Integer id) {
         var task = tasks.get(id);
@@ -62,7 +62,7 @@ public class InMemoryTaskManager implements TaskManager {
         return task;
     }
 
-    //запрос эпика
+    // запрос эпика
     @Override
     public Epic getEpic(Integer id) {
         var epic = epics.get(id);
@@ -71,7 +71,7 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
-    //запрос сабтаска
+    // запрос сабтаска
     @Override
     public Subtask getSubtask(Integer id) {
         var subtask = subtasks.get(id);
@@ -80,7 +80,7 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
-    //создание таска
+    // создание таска
     @Override
     public Task createTask(Task task) {
         task.setId(getNextID());
@@ -89,7 +89,7 @@ public class InMemoryTaskManager implements TaskManager {
         return task;
     }
 
-    //создание эпика
+    // создание эпика
     @Override
     public Epic createEpic(Epic epic) {
         epic.setId(getNextID());
@@ -98,7 +98,7 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
-    //создание сабтаска
+    // создание сабтаска
     @Override
     public Subtask createSubtask(Subtask subtask) {
         var epic = epics.get(subtask.getEpicID());
@@ -111,7 +111,7 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
-    //удаление таска
+    // удаление таска
     @Override
     public void removeTask(Integer id) {
         tasks.remove(id);
@@ -119,7 +119,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Таск №" + id + " удалён");
     }
 
-    //удаление эпика
+    // удаление эпика
     @Override
     public void removeEpic(Integer epicID) {
         var epic = epics.get(epicID);
@@ -134,7 +134,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Эпик №" + epicID + " удалён");
     }
 
-    //удаление сабтаска
+    // удаление сабтаска
     @Override
     public void removeSubtask(Integer id) {
         var subtask = subtasks.get(id);
@@ -147,7 +147,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Сабтаск №" + id + " удалён");
     }
 
-    //удаление всех тасков, эпиков и сабтасков
+    // удаление всех тасков, эпиков и сабтасков
     @Override
     public void removeAllTasksEpicsSubtasks() {
         tasks.clear();
@@ -157,7 +157,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Удалены все таски, эпики и сабтаски");
     }
 
-    //печать списка всех тасков
+    // печать списка всех тасков
     @Override
     public void printAllTasks() {
         if (tasks.isEmpty()) {
@@ -169,7 +169,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //печать списка всех сабтасков
+    // печать списка всех сабтасков
     @Override
     public void printAllSubtasks() {
         if (subtasks.isEmpty()) {
@@ -181,7 +181,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //печать списка всех эпиков
+    // печать списка всех эпиков
     @Override
     public void printAllEpics() {
         if (epics.isEmpty()) {
@@ -193,7 +193,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //обновление таска
+    // обновление таска
     @Override
     public void updateTask(Task task) {
         int id = task.getId();
@@ -205,7 +205,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Таск обновлён");
     }
 
-    //обновление сабтаска
+    // обновление сабтаска
     @Override
     public void updateSubtask(Subtask subtask) {
         var epic = epics.get(subtask.getEpicID());
@@ -220,7 +220,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Сабтаск обновлён");
     }
 
-    //обновление эпика
+    // обновление эпика
     @Override
     public void updateEpic(Epic epic) {
         var subtask = subtasks.get(epic.getId());
@@ -235,7 +235,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Эпик обновлён");
     }
 
-    //обновление статуса эпик
+    // обновление статуса эпик
     private void updateEpicStatus(Integer id) {
         var epic = epics.get(id);
         int isNew = 0;
@@ -261,7 +261,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setTaskState(TaskState.IN_PROGRESS);
     }
 
-    //получение истории
+    // получение истории
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();

@@ -10,16 +10,16 @@ import java.util.List;
 
 public interface HistoryManager {
 
-    //добавление таска
+    // добавление таска
     void add(Task task);
 
-    //удаление по id
+    // удаление по id
     void remove(int id);
 
-    //полная очистка истории
+    // полная очистка истории
     void clear();
 
-    //получение истории
+    // получение истории
     List<Task> getHistory();
 
 }

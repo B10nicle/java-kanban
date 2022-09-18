@@ -16,7 +16,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     private final CustomLinkedList historyManager = new CustomLinkedList();
     private final Map<Integer, Node<Task>> history = new HashMap<>();
 
-    //добавление таска
+    // добавление таска
     @Override
     public void add(Task task) {
         Node<Task> node = historyManager.linkLast(task);
@@ -27,21 +27,21 @@ public class InMemoryHistoryManager implements HistoryManager {
         history.put(task.getId(), node);
     }
 
-    //удаление по id
+    // удаление по id
     @Override
     public void remove(int id) {
         historyManager.removeNode(history.get(id));
         history.remove(id);
     }
 
-    //полная очистка истории
+    // полная очистка истории
     @Override
     public void clear() {
         history.clear();
         historyManager.clear();
     }
 
-    //получение истории
+    // получение истории
     @Override
     public List<Task> getHistory() {
         return historyManager.getTasks();
