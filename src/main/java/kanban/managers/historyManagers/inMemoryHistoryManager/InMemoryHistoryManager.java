@@ -3,6 +3,7 @@ package kanban.managers.historyManagers.inMemoryHistoryManager;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,29 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getTasks();
+    }
+
+    // преобразование истории в строку
+    public static String historyToString(HistoryManager manager) {
+
+        var result = "";
+
+        for (var task : manager.getHistory())
+            result = task.getId() + ", ";
+
+        return result;
+    }
+
+    // преобразование истории из строки
+    public static List<Integer> historyFromString(String value) {
+
+        List<Integer> history = new ArrayList<>();
+
+        for (var line : value.split(", "))
+            history.add(Integer.parseInt(line));
+
+        return history;
+
     }
 
 }

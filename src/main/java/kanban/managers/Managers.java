@@ -2,8 +2,8 @@ package kanban.managers;
 
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.historyManagers.inMemoryHistoryManager.InMemoryHistoryManager;
-import kanban.managers.taskManagers.inMemoryTaskManager.InMemoryTaskManager;
-import kanban.managers.taskManagers.TaskManager;
+import kanban.managers.taskManagers.inMemoryTasksManager.InMemoryTasksManager;
+import kanban.managers.taskManagers.TasksManager;
 
 /**
  * @author Oleg Khilko
@@ -11,8 +11,8 @@ import kanban.managers.taskManagers.TaskManager;
 
 public class Managers {
 
-    public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+    public static TasksManager getDefault() {
+        return new InMemoryTasksManager();
     }
 
     public static HistoryManager getDefaultHistory() {

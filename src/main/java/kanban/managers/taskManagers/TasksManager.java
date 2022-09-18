@@ -4,6 +4,7 @@ import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import java.util.Map;
  * @author Oleg Khilko
  */
 
-public interface TaskManager {
+public interface TasksManager {
 
     // получение мапы всех тасков
     Map<Integer, Task> getTasks();

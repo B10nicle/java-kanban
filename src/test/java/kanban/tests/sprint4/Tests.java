@@ -1,7 +1,7 @@
 package kanban.tests.sprint4;
 
 import kanban.managers.Managers;
-import kanban.managers.taskManagers.TaskManager;
+import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
@@ -15,67 +15,67 @@ import org.junit.Test;
 
 public class Tests extends Assert {
 
-    TaskManager taskManager = Managers.getDefault();
+    TasksManager tasksManager = Managers.getDefault();
 
-    Task task1 = taskManager.createTask(
+    Task task1 = tasksManager.createTask(
             new Task("Task1", "Task1_description"));
-    Task task2 = taskManager.createTask(
+    Task task2 = tasksManager.createTask(
             new Task("Task2", "Task2_description"));
-    Task task3 = taskManager.createTask(
+    Task task3 = tasksManager.createTask(
             new Task("Task3", "Task3_description"));
 
-    Epic epic1 = taskManager.createEpic(
+    Epic epic1 = tasksManager.createEpic(
             new Epic("Epic1", "Epic1_description"));
-    Epic epic2 = taskManager.createEpic(
+    Epic epic2 = tasksManager.createEpic(
             new Epic("Epic2", "Epic2_description"));
-    Epic epic3 = taskManager.createEpic(
+    Epic epic3 = tasksManager.createEpic(
             new Epic("Epic3", "Epic3_description"));
 
-    Subtask subtask1 = taskManager.createSubtask(
+    Subtask subtask1 = tasksManager.createSubtask(
             new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
-    Subtask subtask2 = taskManager.createSubtask(
+    Subtask subtask2 = tasksManager.createSubtask(
             new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
-    Subtask subtask3 = taskManager.createSubtask(
+    Subtask subtask3 = tasksManager.createSubtask(
             new Subtask("Subtask3", "Subtask3_description", epic1.getId()));
 
     @Test // Распечатать все таски
     public void printAllTasks() {
 
-        taskManager.printAllTasks();
-        assertEquals(3, taskManager.getTasks().size());
+        tasksManager.printAllTasks();
+        assertEquals(3, tasksManager.getTasks().size());
 
     }
 
     @Test // Распечатать все эпики
     public void printAllEpics() {
 
-        taskManager.printAllEpics();
-        assertEquals(3, taskManager.getEpics().size());
+        tasksManager.printAllEpics();
+        assertEquals(3, tasksManager.getEpics().size());
 
     }
 
     @Test // Распечатать все сабтаски
     public void printAllSubtasks() {
 
-        taskManager.printAllSubtasks();
-        assertEquals(3, taskManager.getSubtasks().size());
+        tasksManager.printAllSubtasks();
+        assertEquals(3, tasksManager.getSubtasks().size());
 
     }
 
     @Test // Проверить getHistory()
     public void getHistory() {
 
-        taskManager.getTask(task1.getId());
-        taskManager.getTask(task2.getId());
-        taskManager.getTask(task3.getId());
-        taskManager.getSubtask(subtask1.getId());
-        taskManager.getSubtask(subtask2.getId());
-        taskManager.getSubtask(subtask3.getId());
-        taskManager.getEpic(epic1.getId());
-        taskManager.getEpic(epic2.getId());
-        taskManager.getEpic(epic3.getId());
+        tasksManager.getTask(task1.getId());
+        tasksManager.getTask(task2.getId());
+        tasksManager.getTask(task3.getId());
+        tasksManager.getSubtask(subtask1.getId());
+        tasksManager.getSubtask(subtask2.getId());
+        tasksManager.getSubtask(subtask3.getId());
+        tasksManager.getEpic(epic1.getId());
+        tasksManager.getEpic(epic2.getId());
+        tasksManager.getEpic(epic3.getId());
 
-        assertEquals(9, taskManager.getHistory().size());
+        assertEquals(9, tasksManager.getHistory().size());
 
     }
 
@@ -104,19 +104,19 @@ public class Tests extends Assert {
         assertEquals(TaskState.NEW, subtask3.getTaskState());
 
         subtask1.setTaskState(TaskState.IN_PROGRESS);
-        taskManager.updateTask(subtask1);
+        tasksManager.updateTask(subtask1);
         assertEquals(TaskState.IN_PROGRESS, subtask1.getTaskState());
 
         subtask3.setTaskState(TaskState.DONE);
-        taskManager.updateTask(subtask3);
+        tasksManager.updateTask(subtask3);
         assertEquals(TaskState.DONE, subtask3.getTaskState());
 
         subtask1.setTaskState(TaskState.DONE);
-        taskManager.updateSubtask(subtask1);
+        tasksManager.updateSubtask(subtask1);
         assertEquals(TaskState.DONE, subtask1.getTaskState());
 
         subtask2.setTaskState(TaskState.DONE);
-        taskManager.updateSubtask(subtask2);
+        tasksManager.updateSubtask(subtask2);
         assertEquals(TaskState.DONE, subtask2.getTaskState());
 
     }
@@ -124,48 +124,48 @@ public class Tests extends Assert {
     @Test // проверить удаление таска
     public void removeTask() {
 
-        assertEquals(3, taskManager.getTasks().size());
-        taskManager.getTask(task1.getId());
+        assertEquals(3, tasksManager.getTasks().size());
+        tasksManager.getTask(task1.getId());
 
-        taskManager.removeTask(task1.getId());
+        tasksManager.removeTask(task1.getId());
 
-        assertEquals(2, taskManager.getTasks().size());
+        assertEquals(2, tasksManager.getTasks().size());
 
     }
 
     @Test // проверить удаление эпика
     public void removeEpic() {
 
-        assertEquals(3, taskManager.getEpics().size());
-        taskManager.getEpic(epic1.getId());
-        taskManager.getSubtask(subtask1.getId());
-        taskManager.getSubtask(subtask2.getId());
-        taskManager.getSubtask(subtask3.getId());
+        assertEquals(3, tasksManager.getEpics().size());
+        tasksManager.getEpic(epic1.getId());
+        tasksManager.getSubtask(subtask1.getId());
+        tasksManager.getSubtask(subtask2.getId());
+        tasksManager.getSubtask(subtask3.getId());
 
-        taskManager.removeEpic(epic1.getId());
+        tasksManager.removeEpic(epic1.getId());
 
-        assertEquals(2, taskManager.getEpics().size());
+        assertEquals(2, tasksManager.getEpics().size());
 
     }
 
     @Test // проверить удаление всех тасков, эпиков и сабтасков
     public void removeAllTasksEpicsSubtasks() {
 
-        taskManager.getTask(task1.getId());
-        taskManager.getTask(task2.getId());
-        taskManager.getTask(task3.getId());
-        taskManager.getSubtask(subtask1.getId());
-        taskManager.getSubtask(subtask2.getId());
-        taskManager.getSubtask(subtask3.getId());
-        taskManager.getEpic(epic1.getId());
-        taskManager.getEpic(epic2.getId());
-        taskManager.getEpic(epic3.getId());
+        tasksManager.getTask(task1.getId());
+        tasksManager.getTask(task2.getId());
+        tasksManager.getTask(task3.getId());
+        tasksManager.getSubtask(subtask1.getId());
+        tasksManager.getSubtask(subtask2.getId());
+        tasksManager.getSubtask(subtask3.getId());
+        tasksManager.getEpic(epic1.getId());
+        tasksManager.getEpic(epic2.getId());
+        tasksManager.getEpic(epic3.getId());
 
-        assertEquals(9, taskManager.getHistory().size());
+        assertEquals(9, tasksManager.getHistory().size());
 
-        taskManager.removeAllTasksEpicsSubtasks();
+        tasksManager.removeAllTasksEpicsSubtasks();
 
-        assertEquals(0, taskManager.getHistory().size());
+        assertEquals(0, tasksManager.getHistory().size());
 
     }
 

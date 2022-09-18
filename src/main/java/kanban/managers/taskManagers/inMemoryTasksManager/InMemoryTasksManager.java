@@ -1,30 +1,28 @@
-package kanban.managers.taskManagers.inMemoryTaskManager;
+package kanban.managers.taskManagers.inMemoryTasksManager;
 
 import kanban.managers.Managers;
 import kanban.managers.historyManagers.HistoryManager;
-import kanban.managers.taskManagers.TaskManager;
+import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.Epic;
 import kanban.tasks.Task;
 import kanban.tasks.Subtask;
 import kanban.tasks.enums.TaskState;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Oleg Khilko
  */
 
-public class InMemoryTaskManager implements TaskManager {
+public class InMemoryTasksManager implements TasksManager {
 
-    private final Map<Integer, Task> tasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Integer, Subtask> subtasks;
-    private final HistoryManager historyManager;
-    private int id;
+    protected Map<Integer, Task> tasks;
+    protected Map<Integer, Epic> epics;
+    protected Map<Integer, Subtask> subtasks;
+    protected HistoryManager historyManager;
+    protected int id;
 
-    public InMemoryTaskManager() {
+    public InMemoryTasksManager() {
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subtasks = new HashMap<>();
