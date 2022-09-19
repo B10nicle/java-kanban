@@ -51,12 +51,17 @@ public class InMemoryHistoryManager implements HistoryManager {
     // преобразование истории в строку
     public static String historyToString(HistoryManager manager) {
 
-        var result = "";
+        StringBuilder sb = new StringBuilder();
 
-        for (var task : manager.getHistory())
-            result = task.getId() + ", ";
+        for (Task task : manager.getHistory())
+            sb.append(task.getId()).append(",");
 
-        return result;
+        if (sb.toString().equals(""))
+            sb.append(0);
+        else
+            sb.setLength(sb.length() - 1);
+
+        return sb.toString();
     }
 
     // преобразование истории из строки

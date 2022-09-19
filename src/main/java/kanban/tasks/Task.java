@@ -1,6 +1,7 @@
 package kanban.tasks;
 
 import kanban.tasks.enums.TaskState;
+import kanban.tasks.enums.TaskType;
 
 import java.util.Objects;
 
@@ -12,13 +13,16 @@ public class Task {
 
     protected final String name;
     protected final String description;
-    protected Integer id;
+    protected final TaskType taskType;
     protected TaskState taskState;
+    protected Integer id;
+
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
         this.taskState = TaskState.NEW;
+        this.taskType = TaskType.TASK;
     }
 
     public String getName() {
@@ -47,12 +51,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Kanban.Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + taskState +
-                '}';
+        return id + "," + taskType + "," + name + "," + taskState + "," + description;
     }
 
     @Override

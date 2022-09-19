@@ -1,5 +1,7 @@
 package kanban.tasks;
 
+import kanban.tasks.enums.TaskType;
+
 import java.util.Objects;
 
 /**
@@ -9,10 +11,12 @@ import java.util.Objects;
 public class Subtask extends Task {
 
     private final Integer epicID;
+    private final TaskType taskType;
 
     public Subtask(String name, String description, Integer epicID) {
         super(name, description);
         this.epicID = epicID;
+        this.taskType = TaskType.SUBTASK;
     }
 
     public Integer getEpicID() {
@@ -21,13 +25,7 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "Kanban.Subtask{" +
-                "epicID=" + epicID +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + taskState +
-                '}';
+        return id + "," + taskType + "," + name + "," + taskState + "," + description + "," + epicID;
     }
 
     @Override

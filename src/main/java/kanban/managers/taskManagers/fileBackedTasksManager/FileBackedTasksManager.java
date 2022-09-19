@@ -9,22 +9,14 @@ import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author Oleg Khilko
  */
 
 public class FileBackedTasksManager extends InMemoryTasksManager implements TasksManager {
-
-    File autoSave = new File("results.csv");
 
     public FileBackedTasksManager() {
     }
@@ -39,21 +31,6 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
         this.subtasks = subtasks;
         this.historyManager = historyManager;
 
-    }
-
-    private void save() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(autoSave, true))) {
-            String header = "id, type, name, status, description, epic" + "\n";
-            String values = header
-                    + allTasksEpicsSubtasksToString(this)
-                    + "\n"
-                    + InMemoryHistoryManager.historyToString(historyManager);
-
-            bw.write(values);
-
-        } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка записи в файл");
-        }
     }
 
     @Override
@@ -143,25 +120,43 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
         return savedSubtask;
     }
 
+    private void save() {
+
+        File autoSave = new File("results.csv");
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(autoSave));
+             BufferedReader br = new BufferedReader(new FileReader(autoSave))) {
+
+            if (br.readLine() == null) {
+                String header = "id,type,name,status,description,epic" + "\n";
+                bw.write(header);
+            }
+
+            String values = allTasksEpicsSubtasksToString(this)
+                    + "\n"
+                    + InMemoryHistoryManager.historyToString(historyManager);
+
+            bw.write(values);
+
+        } catch (IOException e) {
+            throw new ManagerSaveException("Ошибка записи в файл");
+        }
+    }
+
     // преобразование всех тасков, эпиков и сабтасков в одну строку, каждая с новой строки
     private String allTasksEpicsSubtasksToString(TasksManager tasksManager) {
 
         List<Task> allTasks = new ArrayList<>();
-        var result = "";
+        var result = new StringBuilder();
 
-        for (Map.Entry<Integer, Task> entry : tasksManager.getTasks().entrySet())
-            allTasks.add(entry.getValue());
-
-        for (Map.Entry<Integer, Epic> entry : tasksManager.getEpics().entrySet())
-            allTasks.add(entry.getValue());
-
-        for (Map.Entry<Integer, Subtask> entry : tasksManager.getSubtasks().entrySet())
-            allTasks.add(entry.getValue());
+        allTasks.addAll(tasksManager.getTasks());
+        allTasks.addAll(tasksManager.getEpics());
+        allTasks.addAll(tasksManager.getSubtasks());
 
         for (var task : allTasks)
-            result = Arrays.toString(task.toString().split("\n"));
+            result.append(task.toString()).append("\n");
 
-        return result;
+        return result.toString();
 
     }
 

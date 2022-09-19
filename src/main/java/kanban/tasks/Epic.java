@@ -1,5 +1,7 @@
 package kanban.tasks;
 
+import kanban.tasks.enums.TaskType;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -10,10 +12,12 @@ import java.util.Objects;
 public class Epic extends Task {
 
     private final ArrayList<Integer> subtasks;
+    private final TaskType taskType;
 
     public Epic(String name, String description) {
         super(name, description);
         this.subtasks = new ArrayList<>();
+        this.taskType = TaskType.EPIC;
     }
 
     public ArrayList<Integer> getSubtasks() {
@@ -30,13 +34,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Kanban.Epic{" +
-                "subtasks=" + subtasks +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + taskState +
-                '}';
+        return id + "," + taskType + "," + name + "," + taskState + "," + description;
     }
 
     @Override

@@ -4,8 +4,6 @@ import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
-import java.io.File;
-
 /**
  * @author Oleg Khilko
  */
@@ -46,7 +44,6 @@ public class Main {
         fileManager.getSubtask(subtask1.getId());
         fileManager.getSubtask(subtask2.getId());
         fileManager.getSubtask(subtask3.getId());
-
 
     }
 

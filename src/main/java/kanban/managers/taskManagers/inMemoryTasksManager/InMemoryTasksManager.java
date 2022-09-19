@@ -35,20 +35,20 @@ public class InMemoryTasksManager implements TasksManager {
 
     // получение мапы всех тасков
     @Override
-    public Map<Integer, Task> getTasks() {
-        return tasks;
+    public Collection<Task> getTasks() {
+        return tasks.values();
     }
 
     // получение мапы всех эпиков
     @Override
-    public Map<Integer, Epic> getEpics() {
-        return epics;
+    public Collection<Epic> getEpics() {
+        return epics.values();
     }
 
     // получение мапы всех сабтасков
     @Override
-    public Map<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    public Collection<Subtask> getSubtasks() {
+        return subtasks.values();
     }
 
     // запрос таска

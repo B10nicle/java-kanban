@@ -5,6 +5,7 @@ import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -15,13 +16,13 @@ import java.util.Map;
 public interface TasksManager {
 
     // получение мапы всех тасков
-    Map<Integer, Task> getTasks();
+    Collection<Task> getTasks();
 
     // получение мапы всех эпиков
-    Map<Integer, Epic> getEpics();
+    Collection<Epic> getEpics();
 
     // получение мапы всех сабтасков
-    Map<Integer, Subtask> getSubtasks();
+    Collection<Subtask> getSubtasks();
 
     // создание таска
     Task createTask(Task task);
