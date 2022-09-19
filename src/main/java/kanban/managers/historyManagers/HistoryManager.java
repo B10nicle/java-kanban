@@ -1,6 +1,5 @@
 package kanban.managers.historyManagers;
 
-import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.Task;
 
 import java.util.List;

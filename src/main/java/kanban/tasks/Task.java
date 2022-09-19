@@ -11,18 +11,31 @@ import java.util.Objects;
 
 public class Task {
 
-    protected final String name;
     protected final String description;
     protected final TaskType taskType;
     protected TaskState taskState;
+    protected final String name;
     protected Integer id;
 
+    public Task(String name,
+                String description) {
 
-    public Task(String name, String description) {
-        this.name = name;
-        this.description = description;
         this.taskState = TaskState.NEW;
+        this.description = description;
         this.taskType = TaskType.TASK;
+        this.name = name;
+    }
+
+    public Task(Integer id,
+                String name,
+                TaskState taskState,
+                String description) {
+
+        this.description = description;
+        this.taskType = TaskType.TASK;
+        this.taskState = taskState;
+        this.name = name;
+        this.id = id;
     }
 
     public String getName() {
@@ -51,7 +64,11 @@ public class Task {
 
     @Override
     public String toString() {
-        return id + "," + taskType + "," + name + "," + taskState + "," + description;
+        return id + ","
+                + taskType + ","
+                + name + ","
+                + taskState + ","
+                + description;
     }
 
     @Override

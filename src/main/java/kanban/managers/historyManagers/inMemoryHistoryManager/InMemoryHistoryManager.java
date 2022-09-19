@@ -56,11 +56,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         for (Task task : manager.getHistory())
             sb.append(task.getId()).append(",");
 
-        if (sb.toString().equals(""))
-            sb.append(0);
-        else
-            sb.setLength(sb.length() - 1);
-
         return sb.toString();
     }
 
@@ -69,7 +64,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         List<Integer> history = new ArrayList<>();
 
-        for (var line : value.split(", "))
+        for (var line : value.split(","))
             history.add(Integer.parseInt(line));
 
         return history;

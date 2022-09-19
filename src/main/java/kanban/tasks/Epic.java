@@ -1,5 +1,6 @@
 package kanban.tasks;
 
+import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
 import java.util.ArrayList;
@@ -14,10 +15,24 @@ public class Epic extends Task {
     private final ArrayList<Integer> subtasks;
     private final TaskType taskType;
 
-    public Epic(String name, String description) {
+    public Epic(String name,
+                String description) {
+
         super(name, description);
         this.subtasks = new ArrayList<>();
         this.taskType = TaskType.EPIC;
+    }
+
+    public Epic(Integer id,
+                String name,
+                TaskState taskState,
+                String description) {
+
+        super(name, description);
+        this.subtasks = new ArrayList<>();
+        this.taskType = TaskType.EPIC;
+        this.taskState = taskState;
+        this.id = id;
     }
 
     public ArrayList<Integer> getSubtasks() {
@@ -34,7 +49,11 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return id + "," + taskType + "," + name + "," + taskState + "," + description;
+        return id + ","
+                + taskType + ","
+                + name + ","
+                + taskState + ","
+                + description;
     }
 
     @Override

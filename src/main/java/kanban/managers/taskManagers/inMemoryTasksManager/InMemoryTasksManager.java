@@ -16,17 +16,17 @@ import java.util.*;
 
 public class InMemoryTasksManager implements TasksManager {
 
-    protected Map<Integer, Task> tasks;
-    protected Map<Integer, Epic> epics;
     protected Map<Integer, Subtask> subtasks;
     protected HistoryManager historyManager;
+    protected Map<Integer, Task> tasks;
+    protected Map<Integer, Epic> epics;
     protected int id;
 
     public InMemoryTasksManager() {
+        this.historyManager = Managers.getDefaultHistory();
+        this.subtasks = new HashMap<>();
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
-        this.subtasks = new HashMap<>();
-        this.historyManager = Managers.getDefaultHistory();
     }
 
     public int getNextID() {
