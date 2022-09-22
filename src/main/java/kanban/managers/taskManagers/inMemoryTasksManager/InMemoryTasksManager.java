@@ -17,7 +17,7 @@ import java.util.*;
 public class InMemoryTasksManager implements TasksManager {
 
     protected Map<Integer, Subtask> subtasks;
-    protected HistoryManager historyManager;
+    protected static HistoryManager historyManager;
     protected Map<Integer, Task> tasks;
     protected Map<Integer, Epic> epics;
     protected int id;

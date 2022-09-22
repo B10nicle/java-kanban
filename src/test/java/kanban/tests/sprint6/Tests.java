@@ -25,45 +25,60 @@ public class Tests extends Assert {
     @Test
     public void createAndLoadTasks() {
 
-        FileBackedTasksManager fileManager = Managers.getFileBackedTasksManager();
+        FileBackedTasksManager fileManagerBeforeLoading = Managers.getFileBackedTasksManager();
 
-        Task task1 = fileManager.createTask(
+        Task task1 = fileManagerBeforeLoading.createTask(
                 new Task("Task1", "Task1_description"));
-        Task task2 = fileManager.createTask(
+        Task task2 = fileManagerBeforeLoading.createTask(
                 new Task("Task2", "Task2_description"));
-        Task task3 = fileManager.createTask(
+        Task task3 = fileManagerBeforeLoading.createTask(
                 new Task("Task3", "Task3_description"));
 
-        Epic epic1 = fileManager.createEpic(
+        Epic epic1 = fileManagerBeforeLoading.createEpic(
                 new Epic("Epic1", "Epic1_description"));
-        Epic epic2 = fileManager.createEpic(
+        Epic epic2 = fileManagerBeforeLoading.createEpic(
                 new Epic("Epic2", "Epic2_description"));
-        Epic epic3 = fileManager.createEpic(
+        Epic epic3 = fileManagerBeforeLoading.createEpic(
                 new Epic("Epic3", "Epic3_description"));
 
-        Subtask subtask1 = fileManager.createSubtask(
+        Subtask subtask1 = fileManagerBeforeLoading.createSubtask(
                 new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
-        Subtask subtask2 = fileManager.createSubtask(
+        Subtask subtask2 = fileManagerBeforeLoading.createSubtask(
                 new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
-        Subtask subtask3 = fileManager.createSubtask(
+        Subtask subtask3 = fileManagerBeforeLoading.createSubtask(
                 new Subtask("Subtask3", "Subtask3_description", epic1.getId()));
 
-        fileManager.getTask(task1.getId());
-        fileManager.getTask(task2.getId());
-        fileManager.getTask(task3.getId());
-        fileManager.getEpic(epic1.getId());
-        fileManager.getEpic(epic2.getId());
-        fileManager.getEpic(epic3.getId());
-        fileManager.getSubtask(subtask1.getId());
-        fileManager.getSubtask(subtask2.getId());
-        fileManager.getSubtask(subtask3.getId());
+        fileManagerBeforeLoading.getTask(task1.getId());
+        fileManagerBeforeLoading.getTask(task2.getId());
+        fileManagerBeforeLoading.getTask(task3.getId());
+        fileManagerBeforeLoading.getEpic(epic1.getId());
+        fileManagerBeforeLoading.getEpic(epic2.getId());
+        fileManagerBeforeLoading.getEpic(epic3.getId());
+        fileManagerBeforeLoading.getSubtask(subtask1.getId());
+        fileManagerBeforeLoading.getSubtask(subtask2.getId());
+        fileManagerBeforeLoading.getSubtask(subtask3.getId());
 
-        FileBackedTasksManager.load(Path.of("results.csv"));
+        var fileManagerAfterLoading = FileBackedTasksManager.load(Path.of("results.csv"));
+
+        // проверяю все таски
+        assertEquals(fileManagerBeforeLoading.getTask(1), fileManagerAfterLoading.getTask(1));
+        assertEquals(fileManagerBeforeLoading.getTask(2), fileManagerAfterLoading.getTask(2));
+        assertEquals(fileManagerBeforeLoading.getTask(3), fileManagerAfterLoading.getTask(3));
+
+        // проверяю все эпики
+        assertEquals(fileManagerBeforeLoading.getEpic(4), fileManagerAfterLoading.getEpic(4));
+        assertEquals(fileManagerBeforeLoading.getEpic(5), fileManagerAfterLoading.getEpic(5));
+        assertEquals(fileManagerBeforeLoading.getEpic(6), fileManagerAfterLoading.getEpic(6));
+
+        // проверяю все сабтаски
+        assertEquals(fileManagerBeforeLoading.getSubtask(7), fileManagerAfterLoading.getSubtask(7));
+        assertEquals(fileManagerBeforeLoading.getSubtask(8), fileManagerAfterLoading.getSubtask(8));
+        assertEquals(fileManagerBeforeLoading.getSubtask(9), fileManagerAfterLoading.getSubtask(9));
 
     }
 
     @Test
-    public void fileIsExist() {
+    public void fileExists() {
         assertTrue(Files.exists(path));
     }
 
@@ -79,33 +94,6 @@ public class Tests extends Assert {
         }
 
         assertEquals(12, amountOfLines);
-
-    }
-
-    @Test
-    public void fileContentIsRight() throws IOException {
-
-        BufferedReader br = new BufferedReader(new FileReader(String.valueOf(path)));
-        StringBuilder sb = new StringBuilder();
-
-        while (br.ready()) {
-            sb.append(br.readLine()).append("\n");
-        }
-
-        String expectedResult = "id,type,name,status,description,epic\n" +
-                "1,TASK,Task1,NEW,Task1_description\n" +
-                "2,TASK,Task2,NEW,Task2_description\n" +
-                "3,TASK,Task3,NEW,Task3_description\n" +
-                "4,EPIC,Epic1,NEW,Epic1_description\n" +
-                "5,EPIC,Epic2,NEW,Epic2_description\n" +
-                "6,EPIC,Epic3,NEW,Epic3_description\n" +
-                "7,SUBTASK,Subtask1,NEW,Subtask1_description,4\n" +
-                "8,SUBTASK,Subtask2,NEW,Subtask2_description,4\n" +
-                "9,SUBTASK,Subtask3,NEW,Subtask3_description,4" +
-                "\n\n" + "1,2,3,4,5,6,7,8,9," + "\n";
-
-        assertEquals(expectedResult, sb.toString());
-
     }
 
 }

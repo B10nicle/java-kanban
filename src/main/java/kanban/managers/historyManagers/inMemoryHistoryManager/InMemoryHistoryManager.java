@@ -48,27 +48,4 @@ public class InMemoryHistoryManager implements HistoryManager {
         return historyManager.getTasks();
     }
 
-    // преобразование истории в строку
-    public static String historyToString(HistoryManager manager) {
-
-        StringBuilder sb = new StringBuilder();
-
-        for (Task task : manager.getHistory())
-            sb.append(task.getId()).append(",");
-
-        return sb.toString();
-    }
-
-    // преобразование истории из строки
-    public static List<Integer> historyFromString(String value) {
-
-        List<Integer> history = new ArrayList<>();
-
-        for (var line : value.split(","))
-            history.add(Integer.parseInt(line));
-
-        return history;
-
-    }
-
 }

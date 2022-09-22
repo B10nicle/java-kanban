@@ -1,45 +1,23 @@
 package kanban.managers.taskManagers.fileBackedTasksManager;
 
-import kanban.managers.historyManagers.HistoryManager;
-import kanban.managers.historyManagers.inMemoryHistoryManager.InMemoryHistoryManager;
+import kanban.utils.Formatter;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.managers.taskManagers.fileBackedTasksManager.exceptions.ManagerSaveException;
-import kanban.managers.taskManagers.fileBackedTasksManager.exceptions.NotSupportedTypeException;
 import kanban.managers.taskManagers.inMemoryTasksManager.InMemoryTasksManager;
 import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
-import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
 
 /**
  * @author Oleg Khilko
  */
 
 public class FileBackedTasksManager extends InMemoryTasksManager implements TasksManager {
-
-    public FileBackedTasksManager() {
-
-    }
-
-    public FileBackedTasksManager(int id,
-                                  HistoryManager historyManager,
-                                  Map<Integer, Task> tasks,
-                                  Map<Integer, Epic> epics,
-                                  Map<Integer, Subtask> subtasks) {
-
-        this.historyManager = historyManager;
-        this.subtasks = subtasks;
-        this.tasks = tasks;
-        this.epics = epics;
-        this.id = id;
-
-    }
 
     @Override
     public Task createTask(Task task) {
@@ -141,9 +119,9 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
                 bw.write(header);
             }
 
-            String values = allTasksEpicsSubtasksToString(this)
+            String values = Formatter.tasksToString(this)
                     + "\n"
-                    + InMemoryHistoryManager.historyToString(historyManager);
+                    + Formatter.historyToString(historyManager);
 
             bw.write(values);
 
@@ -154,12 +132,8 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
 
     // загрузка из файла
     public static FileBackedTasksManager load(Path path) {
-        HistoryManager historyManager = new InMemoryHistoryManager();
-        Map<Integer, Subtask> subtasks = new HashMap<>();
-        Map<Integer, Task> allTasks = new HashMap<>();
-        Map<Integer, Epic> epics = new HashMap<>();
-        Map<Integer, Task> tasks= new HashMap<>();
-        int id = 0;
+
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
 
         try {
             var fileName = Files.readString(path);
@@ -167,86 +141,33 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
             var lines = fileName.split("\n");
 
             for (int i = 1; i < lines.length - 2; i++) {
-                var task = fromString(lines[i]);
+                var task = Formatter.tasksFromString(lines[i]);
                 var type = lines[i].split(",")[1];
 
-                if (task.getId() > id)
-                    id = task.getId();
-
                 if (TaskType.valueOf(type).equals(TaskType.TASK)) {
-                    tasks.put(task.getId(), task);
-                    allTasks.put(task.getId(), task);
+                    fileBackedTasksManager.createTask(task);
+                    historyManager.add(fileBackedTasksManager.getTask(task.getId()));
                 }
 
                 if (TaskType.valueOf(type).equals(TaskType.EPIC)) {
-                    epics.put(task.getId(), (Epic) task);
-                    allTasks.put(task.getId(), task);
+                    var epic = (Epic) task;
+                    fileBackedTasksManager.createEpic(epic);
+                    historyManager.add(fileBackedTasksManager.getEpic(epic.getId()));
                 }
 
                 if (TaskType.valueOf(type).equals(TaskType.SUBTASK)) {
-                    assert task instanceof Subtask;
                     var subtask = (Subtask) task;
-                    subtasks.put(task.getId(), subtask);
-                    epics.get(subtask.getEpicID()).addSubtask(subtask);
-                    allTasks.put(task.getId(), task);
+                    fileBackedTasksManager.createSubtask(subtask);
+                    historyManager.add(fileBackedTasksManager.getSubtask(subtask.getId()));
                 }
             }
-
-            var history = InMemoryHistoryManager.historyFromString(lines[lines.length - 1]);
-
-            for (Integer thisID : history)
-                historyManager.add(allTasks.get(thisID));
 
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка загрузки из файла");
         }
 
-        return new FileBackedTasksManager(id, historyManager, tasks, epics, subtasks);
+        return fileBackedTasksManager;
 
-    }
-
-    // преобразование всех тасков, эпиков и сабтасков в одну строку, каждая с новой строки
-    private String allTasksEpicsSubtasksToString(TasksManager tasksManager) {
-
-        List<Task> allTasks = new ArrayList<>();
-        var result = new StringBuilder();
-
-        allTasks.addAll(tasksManager.getTasks());
-        allTasks.addAll(tasksManager.getEpics());
-        allTasks.addAll(tasksManager.getSubtasks());
-
-        for (var task : allTasks)
-            result.append(task.toString()).append("\n");
-
-        return result.toString();
-
-    }
-
-    // преобразование из строки обратно в таски, эпики и сабтаски
-    private static Task fromString(String value) {
-
-        var values = value.split(",");
-        var id = Integer.parseInt(values[0]);
-        var type = values[1];
-        var name = values[2];
-        var status = TaskState.valueOf(values[3]);
-        var description = values[4];
-        int epicID = 0;
-
-        if (TaskType.valueOf(type).equals(TaskType.SUBTASK))
-            epicID = Integer.parseInt(values[5]);
-
-        if (TaskType.valueOf(type).equals(TaskType.TASK))
-            return new Task(id, name, status, description);
-
-        if (TaskType.valueOf(type).equals(TaskType.EPIC))
-            return new Epic(id, name, status, description);
-
-        if (TaskType.valueOf(type).equals(TaskType.SUBTASK))
-            return new Subtask(id, name, status, description, epicID);
-
-        else
-            throw new NotSupportedTypeException("Данный формат таска не поддерживается");
     }
 
 }
