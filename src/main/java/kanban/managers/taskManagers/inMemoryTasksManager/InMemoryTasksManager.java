@@ -54,15 +54,18 @@ public class InMemoryTasksManager implements TasksManager {
     // запрос таска
     @Override
     public Task getTask(Integer id) {
+
         var task = tasks.get(id);
         historyManager.add(task);
 
         return task;
+
     }
 
     // запрос эпика
     @Override
     public Epic getEpic(Integer id) {
+
         var epic = epics.get(id);
         historyManager.add(epic);
 
@@ -193,7 +196,7 @@ public class InMemoryTasksManager implements TasksManager {
 
     // обновление таска
     @Override
-    public void updateTask(Task task) {
+    public void update(Task task) {
         int id = task.getId();
         var currentTask = tasks.get(id);
         if (currentTask == null) {
@@ -205,7 +208,7 @@ public class InMemoryTasksManager implements TasksManager {
 
     // обновление сабтаска
     @Override
-    public void updateSubtask(Subtask subtask) {
+    public void update(Subtask subtask) {
         var epic = epics.get(subtask.getEpicID());
         int id = subtask.getId();
         var currentSubtask = subtasks.get(id);
@@ -220,7 +223,7 @@ public class InMemoryTasksManager implements TasksManager {
 
     // обновление эпика
     @Override
-    public void updateEpic(Epic epic) {
+    public void update(Epic epic) {
         var subtask = subtasks.get(epic.getId());
         int id = epic.getId();
         var currentEpic = epics.get(id);

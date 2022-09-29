@@ -1,24 +1,25 @@
-package kanban.tests.sprint6;
-
+/*
 import kanban.managers.Managers;
 import kanban.managers.taskManagers.fileBackedTasksManager.FileBackedTasksManager;
+import kanban.managers.taskManagers.fileBackedTasksManager.exceptions.ManagerSaveException;
+import kanban.managers.taskManagers.fileBackedTasksManager.exceptions.NotSupportedTypeException;
 import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+*/
 /**
  * @author Oleg Khilko
- */
+ *//*
 
-public class Tests extends Assert {
+
+public class FileBackedTasksManagerTest extends Assertions {
 
     Path path = Path.of("results.csv");
 
@@ -58,7 +59,7 @@ public class Tests extends Assert {
         fileManagerBeforeLoading.getSubtask(subtask2.getId());
         fileManagerBeforeLoading.getSubtask(subtask3.getId());
 
-        var fileManagerAfterLoading = FileBackedTasksManager.load(Path.of("results.csv"));
+        FileBackedTasksManager fileManagerAfterLoading = FileBackedTasksManager.load(Path.of("results.csv"));
 
         // проверяю все таски
         assertEquals(fileManagerBeforeLoading.getTask(1), fileManagerAfterLoading.getTask(1));
@@ -96,4 +97,28 @@ public class Tests extends Assert {
         assertEquals(12, amountOfLines);
     }
 
-}
+    @Test
+    public void shouldThrowManagerSaveException() {
+
+        ManagerSaveException exception = assertThrows(
+                ManagerSaveException.class,
+                () -> {
+                    throw new ManagerSaveException("Ошибка записи в файл");
+                });
+
+        assertEquals("Ошибка записи в файл", exception.getMessage());
+    }
+
+    @Test
+    public void shouldNotSupportedTypeException() {
+
+        NotSupportedTypeException exception = assertThrows(
+                NotSupportedTypeException.class,
+                () -> {
+                    throw new NotSupportedTypeException("Данный формат таска не поддерживается");
+                });
+
+        assertEquals("Данный формат таска не поддерживается", exception.getMessage());
+    }
+
+}*/

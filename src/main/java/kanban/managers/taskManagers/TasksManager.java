@@ -4,10 +4,8 @@ import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Oleg Khilko
@@ -55,13 +53,13 @@ public interface TasksManager {
     void printAllEpics();
 
     // обновление таска
-    void updateTask(Task task);
+    void update(Task task);
 
     // обновление сабтаска
-    void updateSubtask(Subtask subtask);
+    void update(Subtask subtask);
 
     // обновление эпика
-    void updateEpic(Epic epic);
+    void update(Epic epic);
 
     // запрос таска
     Task getTask(Integer id);

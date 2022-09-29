@@ -3,6 +3,8 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -15,10 +17,17 @@ public class Epic extends Task {
     private final ArrayList<Integer> subtasks;
     private final TaskType taskType;
 
-    public Epic(String name,
-                String description) {
+    private LocalDateTime startTime;
+    private Long duration;
+    private LocalDateTime endTime;
 
-        super(name, description);
+
+    public Epic(String name,
+                String description,
+                LocalDateTime startTime,
+                Long duration) {
+
+        super(name, description, startTime, duration);
         this.subtasks = new ArrayList<>();
         this.taskType = TaskType.EPIC;
     }
@@ -26,9 +35,11 @@ public class Epic extends Task {
     public Epic(Integer id,
                 String name,
                 TaskState taskState,
-                String description) {
+                String description,
+                LocalDateTime startTime,
+                Long duration) {
 
-        super(name, description);
+        super(name, description, startTime, duration);
         this.subtasks = new ArrayList<>();
         this.taskType = TaskType.EPIC;
         this.taskState = taskState;
@@ -48,12 +59,25 @@ public class Epic extends Task {
     }
 
     @Override
+    public LocalDateTime getEndTime() {
+
+
+
+
+
+        return endTime;
+    }
+
+    @Override
     public String toString() {
         return id + ","
                 + taskType + ","
                 + name + ","
                 + taskState + ","
-                + description;
+                + description + ","
+                + startTime + ","
+                + duration + ","
+                + getEndTime();
     }
 
     @Override

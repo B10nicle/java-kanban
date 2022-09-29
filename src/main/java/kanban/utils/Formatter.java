@@ -9,7 +9,10 @@ import kanban.tasks.Task;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,28 +65,31 @@ public class Formatter {
     // преобразование из строки обратно в таски, эпики и сабтаски
     public static Task tasksFromString(String value) {
 
+        var epicID = 0;
         var values = value.split(",");
         var id = Integer.parseInt(values[0]);
         var type = values[1];
         var name = values[2];
         var status = TaskState.valueOf(values[3]);
         var description = values[4];
-        int epicID = 0;
+        var startTime = LocalDateTime.parse(values[5]);
+        var duration = Long.parseLong(values[6]);
 
         if (TaskType.valueOf(type).equals(TaskType.SUBTASK))
-            epicID = Integer.parseInt(values[5]);
+            epicID = Integer.parseInt(values[7]);
 
         if (TaskType.valueOf(type).equals(TaskType.TASK))
-            return new Task(id, name, status, description);
+            return new Task(id, name, status, description, startTime, duration);
 
         if (TaskType.valueOf(type).equals(TaskType.EPIC))
-            return new Epic(id, name, status, description);
+            return new Epic(id, name, status, description, startTime, duration);
 
         if (TaskType.valueOf(type).equals(TaskType.SUBTASK))
-            return new Subtask(id, name, status, description, epicID);
+            return new Subtask(id, name, status, description, startTime, duration, epicID);
 
         else
             throw new NotSupportedTypeException("Данный формат таска не поддерживается");
+
     }
 
 }
