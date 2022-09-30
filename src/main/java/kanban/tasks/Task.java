@@ -3,11 +3,7 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -20,14 +16,14 @@ public class Task {
     protected final TaskType taskType;
     protected TaskState taskState;
     protected final String name;
-    protected LocalDateTime startTime;
-    protected Long duration;
-    protected Integer id;
+    protected Instant startTime;
+    protected long duration;
+    protected int id;
 
     public Task(String name,
                 String description,
-                LocalDateTime startTime,
-                Long duration) {
+                Instant startTime,
+                long duration) {
 
         this.taskState = TaskState.NEW;
         this.description = description;
@@ -37,12 +33,12 @@ public class Task {
         this.name = name;
     }
 
-    public Task(Integer id,
+    public Task(int id,
                 String name,
                 TaskState taskState,
                 String description,
-                LocalDateTime startTime,
-                Long duration) {
+                Instant startTime,
+                long duration) {
 
         this.description = description;
         this.taskType = TaskType.TASK;
@@ -53,8 +49,18 @@ public class Task {
         this.id = id;
     }
 
-    public LocalDateTime getEndTime() {
-        return startTime.plusMinutes(duration);
+    public Instant getStartTime() {
+
+        return startTime;
+
+    }
+
+    public Instant getEndTime() {
+
+        final long SECONDS_IN_ONE_MINUTE = 60L;
+
+        return startTime.plusSeconds(duration * SECONDS_IN_ONE_MINUTE);
+
     }
 
     public String getName() {
@@ -65,11 +71,11 @@ public class Task {
         return description;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -88,7 +94,7 @@ public class Task {
                 + name + ","
                 + taskState + ","
                 + description + ","
-                + startTime + ","
+                + getStartTime() + ","
                 + duration + ","
                 + getEndTime();
     }

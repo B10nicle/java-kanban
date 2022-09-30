@@ -3,6 +3,7 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,32 +15,27 @@ import java.util.Objects;
 
 public class Epic extends Task {
 
+    private Instant endTime = Instant.ofEpochSecond(0);
     private final ArrayList<Integer> subtasks;
     private final TaskType taskType;
 
-    private LocalDateTime startTime;
-    private Long duration;
-    private LocalDateTime endTime;
-
-
     public Epic(String name,
-                String description,
-                LocalDateTime startTime,
-                Long duration) {
+                String description) {
 
-        super(name, description, startTime, duration);
+        super(name, description, Instant.ofEpochSecond(0),0);
         this.subtasks = new ArrayList<>();
         this.taskType = TaskType.EPIC;
     }
 
-    public Epic(Integer id,
+    public Epic(int id,
                 String name,
                 TaskState taskState,
                 String description,
-                LocalDateTime startTime,
-                Long duration) {
+                Instant startTime,
+                long duration) {
 
         super(name, description, startTime, duration);
+        this.endTime = super.getEndTime();
         this.subtasks = new ArrayList<>();
         this.taskType = TaskType.EPIC;
         this.taskState = taskState;
@@ -59,12 +55,7 @@ public class Epic extends Task {
     }
 
     @Override
-    public LocalDateTime getEndTime() {
-
-
-
-
-
+    public Instant getEndTime() {
         return endTime;
     }
 
@@ -75,7 +66,7 @@ public class Epic extends Task {
                 + name + ","
                 + taskState + ","
                 + description + ","
-                + startTime + ","
+                + getStartTime() + ","
                 + duration + ","
                 + getEndTime();
     }
@@ -93,7 +84,7 @@ public class Epic extends Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(subtasks);
+        return Objects.hash(super.hashCode(), subtasks);
     }
 
 }

@@ -7,7 +7,7 @@ import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Oleg Khilko
@@ -21,26 +21,24 @@ public class Tests {
         var task1 = manager.createTask(
                 new Task("Task1",
                         "Task1_description",
-                        LocalDateTime.of(2022, 9, 29, 0, 0),
+                        Instant.now(),
                         120L));
 
         Epic epic1 = manager.createEpic(
                 new Epic("Epic1",
-                        "Epic1_description",
-                        LocalDateTime.of(2022, 9, 29, 0, 0),
-                        240L));
+                        "Epic1_description"));
 
         var subtask1 = manager.createSubtask(
                 new Subtask("Subtask1",
                         "Subtask1_description",
-                        LocalDateTime.of(2022, 9, 29, 0, 0),
+                        Instant.now(),
                         460L,
                         epic1.getId()));
 
         var subtask2 = manager.createSubtask(
                 new Subtask("Subtask2",
                         "Subtask2_description",
-                        LocalDateTime.of(2022, 9, 29, 0, 0),
+                        Instant.now(),
                         3130L,
                         epic1.getId()));
 

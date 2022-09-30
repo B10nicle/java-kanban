@@ -9,6 +9,7 @@ import kanban.tasks.Task;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class Formatter {
         var name = values[2];
         var status = TaskState.valueOf(values[3]);
         var description = values[4];
-        var startTime = LocalDateTime.parse(values[5]);
+        var startTime = Instant.parse(values[5]);
         var duration = Long.parseLong(values[6]);
 
         if (TaskType.valueOf(type).equals(TaskType.SUBTASK))

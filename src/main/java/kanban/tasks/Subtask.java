@@ -3,7 +3,7 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -13,12 +13,12 @@ import java.util.Objects;
 public class Subtask extends Task {
 
     private final TaskType taskType;
-    private final Integer epicID;
+    private final int epicID;
 
     public Subtask(String name,
                    String description,
-                   LocalDateTime startTime,
-                   Long duration,
+                   Instant startTime,
+                   long duration,
                    int epicID) {
 
         super(name, description, startTime, duration);
@@ -26,12 +26,12 @@ public class Subtask extends Task {
         this.epicID = epicID;
     }
 
-    public Subtask(Integer id,
+    public Subtask(int id,
                    String name,
                    TaskState taskState,
                    String description,
-                   LocalDateTime startTime,
-                   Long duration,
+                   Instant startTime,
+                   long duration,
                    int epicID) {
 
         super(name, description, startTime, duration);
@@ -41,7 +41,7 @@ public class Subtask extends Task {
         this.id = id;
     }
 
-    public Integer getEpicID() {
+    public int getEpicID() {
         return epicID;
     }
 
@@ -52,7 +52,7 @@ public class Subtask extends Task {
                 + name + ","
                 + taskState + ","
                 + description + ","
-                + startTime + ","
+                + getStartTime() + ","
                 + duration + ","
                 + getEndTime() + ","
                 + epicID;
@@ -71,7 +71,7 @@ public class Subtask extends Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(epicID);
+        return Objects.hash(super.hashCode(), epicID);
     }
 
 }
