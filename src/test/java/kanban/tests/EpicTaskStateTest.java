@@ -1,4 +1,5 @@
-/*
+package kanban.tests;
+
 import kanban.managers.Managers;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.Epic;
@@ -7,11 +8,8 @@ import kanban.tasks.enums.TaskState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-*/
-/**
- * @author Oleg Khilko
- *//*
-
+import java.time.Duration;
+import java.time.Instant;
 
 public class EpicTaskStateTest extends Assertions {
 
@@ -35,9 +33,12 @@ public class EpicTaskStateTest extends Assertions {
                 new Epic("Epic1", "Epic1_description"));
 
         Subtask subtask1 = manager.createSubtask(
-                new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
+                new Subtask("Subtask1", "Subtask1_description",
+                        Instant.now(), 90, epic1.getId()));
+
         Subtask subtask2 = manager.createSubtask(
-                new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
+                new Subtask("Subtask2", "Subtask2_description",
+                        Instant.now(), 100, epic1.getId()));
 
         assertEquals(TaskState.NEW, epic1.getTaskState());
 
@@ -50,9 +51,12 @@ public class EpicTaskStateTest extends Assertions {
                 new Epic("Epic1", "Epic1_description"));
 
         Subtask subtask1 = manager.createSubtask(
-                new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
+                new Subtask("Subtask1", "Subtask1_description",
+                        Instant.now(), 90, epic1.getId()));
+
         Subtask subtask2 = manager.createSubtask(
-                new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
+                new Subtask("Subtask2", "Subtask2_description",
+                        Instant.now(), 100, epic1.getId()));
 
         subtask1.setTaskState(TaskState.DONE);
         manager.update(subtask1);
@@ -71,9 +75,12 @@ public class EpicTaskStateTest extends Assertions {
                 new Epic("Epic1", "Epic1_description"));
 
         Subtask subtask1 = manager.createSubtask(
-                new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
+                new Subtask("Subtask1", "Subtask1_description",
+                        Instant.now(), 90, epic1.getId()));
+
         Subtask subtask2 = manager.createSubtask(
-                new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
+                new Subtask("Subtask2", "Subtask2_description",
+                        Instant.now(), 100, epic1.getId()));
 
         subtask2.setTaskState(TaskState.DONE);
         manager.update(subtask2);
@@ -89,9 +96,12 @@ public class EpicTaskStateTest extends Assertions {
                 new Epic("Epic1", "Epic1_description"));
 
         Subtask subtask1 = manager.createSubtask(
-                new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
+                new Subtask("Subtask1", "Subtask1_description",
+                        Instant.now(), 90, epic1.getId()));
+
         Subtask subtask2 = manager.createSubtask(
-                new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
+                new Subtask("Subtask2", "Subtask2_description",
+                        Instant.now(), 100, epic1.getId()));
 
         subtask1.setTaskState(TaskState.IN_PROGRESS);
         manager.update(subtask1);
@@ -103,4 +113,4 @@ public class EpicTaskStateTest extends Assertions {
 
     }
 
-}*/
+}

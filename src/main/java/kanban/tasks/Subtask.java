@@ -3,6 +3,7 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 

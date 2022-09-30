@@ -9,6 +9,7 @@ import kanban.tasks.Task;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -77,7 +78,7 @@ public class Formatter {
         var duration = Long.parseLong(values[6]);
 
         if (TaskType.valueOf(type).equals(TaskType.SUBTASK))
-            epicID = Integer.parseInt(values[7]);
+            epicID = Integer.parseInt(values[8]);
 
         if (TaskType.valueOf(type).equals(TaskType.TASK))
             return new Task(id, name, status, description, startTime, duration);

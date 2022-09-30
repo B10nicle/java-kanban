@@ -3,6 +3,7 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -57,9 +58,7 @@ public class Task {
 
     public Instant getEndTime() {
 
-        final long SECONDS_IN_ONE_MINUTE = 60L;
-
-        return startTime.plusSeconds(duration * SECONDS_IN_ONE_MINUTE);
+        return startTime.plusSeconds(duration * 60L);
 
     }
 

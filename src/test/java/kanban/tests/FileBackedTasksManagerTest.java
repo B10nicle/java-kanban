@@ -1,4 +1,5 @@
-/*
+package kanban.tests;
+
 import kanban.managers.Managers;
 import kanban.managers.taskManagers.fileBackedTasksManager.FileBackedTasksManager;
 import kanban.managers.taskManagers.fileBackedTasksManager.exceptions.ManagerSaveException;
@@ -12,12 +13,8 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-*/
-/**
- * @author Oleg Khilko
- *//*
-
+import java.time.Duration;
+import java.time.Instant;
 
 public class FileBackedTasksManagerTest extends Assertions {
 
@@ -29,25 +26,40 @@ public class FileBackedTasksManagerTest extends Assertions {
         FileBackedTasksManager fileManagerBeforeLoading = Managers.getFileBackedTasksManager();
 
         Task task1 = fileManagerBeforeLoading.createTask(
-                new Task("Task1", "Task1_description"));
+                new Task("Task1",
+                        "Task1_description",
+                        Instant.now(), 30));
+
         Task task2 = fileManagerBeforeLoading.createTask(
-                new Task("Task2", "Task2_description"));
+                new Task("Task2",
+                        "Task2_description",
+                        Instant.now(), 40));
+
         Task task3 = fileManagerBeforeLoading.createTask(
-                new Task("Task3", "Task3_description"));
+                new Task("Task3",
+                        "Task3_description",
+                        Instant.now(), 50));
 
         Epic epic1 = fileManagerBeforeLoading.createEpic(
                 new Epic("Epic1", "Epic1_description"));
+
         Epic epic2 = fileManagerBeforeLoading.createEpic(
                 new Epic("Epic2", "Epic2_description"));
+
         Epic epic3 = fileManagerBeforeLoading.createEpic(
                 new Epic("Epic3", "Epic3_description"));
 
         Subtask subtask1 = fileManagerBeforeLoading.createSubtask(
-                new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
+                new Subtask("Subtask1", "Subtask1_description",
+                        Instant.now(), 110, epic1.getId()));
+
         Subtask subtask2 = fileManagerBeforeLoading.createSubtask(
-                new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
+                new Subtask("Subtask2", "Subtask2_description",
+                        Instant.now(), 180, epic1.getId()));
+
         Subtask subtask3 = fileManagerBeforeLoading.createSubtask(
-                new Subtask("Subtask3", "Subtask3_description", epic1.getId()));
+                new Subtask("Subtask3", "Subtask3_description",
+                        Instant.now(), 210, epic1.getId()));
 
         fileManagerBeforeLoading.getTask(task1.getId());
         fileManagerBeforeLoading.getTask(task2.getId());
@@ -121,4 +133,4 @@ public class FileBackedTasksManagerTest extends Assertions {
         assertEquals("Данный формат таска не поддерживается", exception.getMessage());
     }
 
-}*/
+}

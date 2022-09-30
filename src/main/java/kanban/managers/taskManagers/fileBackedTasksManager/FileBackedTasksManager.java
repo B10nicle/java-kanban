@@ -21,89 +21,118 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
 
     @Override
     public Task createTask(Task task) {
+
         var savedTask = super.createTask(task);
         save();
 
         return savedTask;
+
     }
 
     @Override
     public Epic createEpic(Epic epic) {
+
         var savedEpic = super.createEpic(epic);
         save();
 
         return savedEpic;
+
     }
 
     @Override
     public Subtask createSubtask(Subtask subtask) {
+
         var savedSubtask = super.createSubtask(subtask);
         save();
 
         return savedSubtask;
+
     }
 
     @Override
-    public void removeTask(Integer id) {
+    public void removeTask(int id) {
+
         super.removeTask(id);
         save();
+
     }
 
     @Override
-    public void removeEpic(Integer epicID) {
+    public void removeEpic(int epicID) {
+
         super.removeEpic(epicID);
         save();
+
     }
 
     @Override
-    public void removeSubtask(Integer id) {
+    public void removeSubtask(int id) {
+
         super.removeSubtask(id);
         save();
+
     }
 
     @Override
     public void removeAllTasksEpicsSubtasks() {
+
         super.removeAllTasksEpicsSubtasks();
         save();
+
     }
 
     @Override
     public void update(Task task) {
+
         super.update(task);
         save();
+
     }
 
     @Override
     public void update(Epic epic) {
+
         super.update(epic);
         save();
+
     }
 
     @Override
     public void update(Subtask subtask) {
+
         super.update(subtask);
         save();
+
     }
 
     @Override
-    public Task getTask(Integer id) {
+    public Task getTask(int id) {
+
         var savedTask = super.getTask(id);
         save();
+
         return savedTask;
+
     }
 
     @Override
-    public Epic getEpic(Integer id) {
+    public Epic getEpic(int id) {
+
         var savedEpic = super.getEpic(id);
         save();
+
         return savedEpic;
+
     }
 
     @Override
-    public Subtask getSubtask(Integer id) {
+    public Subtask getSubtask(int id) {
+
         var savedSubtask = super.getSubtask(id);
         save();
+
         return savedSubtask;
+
     }
 
     // сохранение в файл
@@ -115,7 +144,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
              BufferedReader br = new BufferedReader(new FileReader(autoSave))) {
 
             if (br.readLine() == null) {
-                String header = "id,type,name,status,description,epic" + "\n";
+                String header = "id,type,name,status,description,startTime,duration,endTime,epic" + "\n";
                 bw.write(header);
             }
 

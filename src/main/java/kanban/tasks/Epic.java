@@ -3,11 +3,14 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Oleg Khilko
@@ -22,7 +25,7 @@ public class Epic extends Task {
     public Epic(String name,
                 String description) {
 
-        super(name, description, Instant.ofEpochSecond(0),0);
+        super(name, description, Instant.ofEpochSecond(0), 0);
         this.subtasks = new ArrayList<>();
         this.taskType = TaskType.EPIC;
     }
@@ -40,6 +43,48 @@ public class Epic extends Task {
         this.taskType = TaskType.EPIC;
         this.taskState = taskState;
         this.id = id;
+    }
+
+    // обновление статуса эпик
+    public void updateEpicState(Map<Integer, Subtask> subs) {
+
+        Instant startTime = subs.get(subtasks.get(0)).getStartTime();
+        Instant endTime = subs.get(subtasks.get(0)).getEndTime();
+
+        int isNew = 0;
+        int isDone = 0;
+
+        for (var id : getSubtasks()) {
+
+            var subtask = subs.get(id);
+
+            if (subtask.getTaskState() == TaskState.NEW)
+                isNew += 1;
+
+            if (subtask.getTaskState() == TaskState.DONE)
+                isDone += 1;
+
+            if (subtask.getStartTime().isBefore(startTime))
+                startTime = subtask.getStartTime();
+
+            if (subtask.getEndTime().isAfter(endTime))
+                endTime = subtask.getEndTime();
+        }
+
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.duration = Duration.between(startTime, endTime).toMinutes();
+
+        if (getSubtasks().size() == isNew) {
+            setTaskState(TaskState.NEW);
+            return;
+
+        } else if (getSubtasks().size() == isDone) {
+            setTaskState(TaskState.DONE);
+            return;
+        }
+
+        setTaskState(TaskState.IN_PROGRESS);
     }
 
     public ArrayList<Integer> getSubtasks() {

@@ -6,6 +6,7 @@ import kanban.tasks.Task;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Oleg Khilko
@@ -32,13 +33,13 @@ public interface TasksManager {
     Epic createEpic(Epic epic);
 
     // удаление эпика
-    void removeEpic(Integer epicID);
+    void removeEpic(int epicID);
 
     // удаление сабтаска
-    void removeSubtask(Integer id);
+    void removeSubtask(int id);
 
     // удаление таска
-    void removeTask(Integer id);
+    void removeTask(int id);
 
     // удаление всех тасков, эпиков и сабтасков
     void removeAllTasksEpicsSubtasks();
@@ -62,13 +63,13 @@ public interface TasksManager {
     void update(Epic epic);
 
     // запрос таска
-    Task getTask(Integer id);
+    Task getTask(int id);
 
     // запрос сабтаска
-    Subtask getSubtask(Integer id);
+    Subtask getSubtask(int id);
 
     // запрос эпика
-    Epic getEpic(Integer id);
+    Epic getEpic(int id);
 
     // получение истории
     List<Task> getHistory();

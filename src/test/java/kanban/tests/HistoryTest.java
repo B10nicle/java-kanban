@@ -1,4 +1,5 @@
-/*
+package kanban.tests;
+
 import kanban.managers.Managers;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.Epic;
@@ -7,36 +8,44 @@ import kanban.tasks.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-*/
-/**
- * @author Oleg Khilko
- *//*
-
+import java.time.Instant;
 
 public class HistoryTest extends Assertions {
 
     TasksManager manager = Managers.getDefault();
 
     Task task1 = manager.createTask(
-            new Task("Task1", "Task1_description"));
+            new Task("Task1", "Task1_description",
+                    Instant.now(), 60));
+
     Task task2 = manager.createTask(
-            new Task("Task2", "Task2_description"));
+            new Task("Task2", "Task2_description",
+                    Instant.now(), 70));
+
     Task task3 = manager.createTask(
-            new Task("Task3", "Task3_description"));
+            new Task("Task3", "Task3_description",
+                    Instant.now(), 80));
 
     Epic epic1 = manager.createEpic(
             new Epic("Epic1", "Epic1_description"));
+
     Epic epic2 = manager.createEpic(
             new Epic("Epic2", "Epic2_description"));
+
     Epic epic3 = manager.createEpic(
             new Epic("Epic3", "Epic3_description"));
 
     Subtask subtask1 = manager.createSubtask(
-            new Subtask("Subtask1", "Subtask1_description", epic1.getId()));
+            new Subtask("Subtask1", "Subtask1_description",
+                    Instant.now(), 90, epic1.getId()));
+
     Subtask subtask2 = manager.createSubtask(
-            new Subtask("Subtask2", "Subtask2_description", epic1.getId()));
+            new Subtask("Subtask2", "Subtask2_description",
+                    Instant.now(), 100, epic1.getId()));
+
     Subtask subtask3 = manager.createSubtask(
-            new Subtask("Subtask3", "Subtask3_description", epic1.getId()));
+            new Subtask("Subtask3", "Subtask3_description",
+                    Instant.now(), 110, epic1.getId()));
 
     @Test // Запросите созданные задачи несколько раз в разном порядке
     // После каждого запроса выведите историю и убедитесь, что в ней нет повторов
@@ -87,7 +96,7 @@ public class HistoryTest extends Assertions {
         manager.getTask(task3.getId());
 
         assertEquals(9, manager.getHistory().size());
-        manager.removeSubtask(subtask1.getId());
+        manager.removeTask(task1.getId());
         assertEquals(8, manager.getHistory().size());
 
     }
@@ -111,4 +120,4 @@ public class HistoryTest extends Assertions {
 
     }
 
-}*/
+}

@@ -14,38 +14,45 @@ import java.time.Instant;
  */
 
 public class Tests {
+
     TasksManager manager = Managers.getDefault();
 
     @Test
     void print() {
-        var task1 = manager.createTask(
-                new Task("Task1",
-                        "Task1_description",
-                        Instant.now(),
-                        120L));
+
+        Task task1 = manager.createTask(
+                new Task("Task1", "Task1_description",
+                        Instant.now(), 200));
+
+        Task task2 = manager.createTask(
+                new Task("Task2", "Task2_description",
+                        Instant.now(), 70));
+
+        Task task3 = manager.createTask(
+                new Task("Task3", "Task3_description",
+                        Instant.now(), 80));
 
         Epic epic1 = manager.createEpic(
-                new Epic("Epic1",
-                        "Epic1_description"));
+                new Epic("Epic1", "Epic1_description"));
 
-        var subtask1 = manager.createSubtask(
-                new Subtask("Subtask1",
-                        "Subtask1_description",
-                        Instant.now(),
-                        460L,
-                        epic1.getId()));
+        Epic epic2 = manager.createEpic(
+                new Epic("Epic2", "Epic2_description"));
 
-        var subtask2 = manager.createSubtask(
-                new Subtask("Subtask2",
-                        "Subtask2_description",
-                        Instant.now(),
-                        3130L,
-                        epic1.getId()));
+        Epic epic3 = manager.createEpic(
+                new Epic("Epic3", "Epic3_description"));
 
-        System.out.println(task1);
-        System.out.println(epic1);
-        System.out.println(subtask1);
-        System.out.println(subtask2);
+        Subtask subtask1 = manager.createSubtask(
+                new Subtask("Subtask1", "Subtask1_description",
+                        Instant.now(), 90, epic1.getId()));
+
+        Subtask subtask2 = manager.createSubtask(
+                new Subtask("Subtask2", "Subtask2_description",
+                        Instant.now(), 100, epic1.getId()));
+
+        Subtask subtask3 = manager.createSubtask(
+                new Subtask("Subtask3", "Subtask3_description",
+                        Instant.now(), 110, epic1.getId()));
+
     }
 
 }
