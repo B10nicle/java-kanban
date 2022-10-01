@@ -1,6 +1,5 @@
 package kanban.utils;
 
-import kanban.managers.taskManagers.exceptions.NotSupportedTypeException;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.enums.TaskState;
@@ -86,7 +85,7 @@ public class Formatter {
             return new Subtask(id, name, status, description, startTime, duration, epicID);
 
         else
-            throw new NotSupportedTypeException("Данный формат таска не поддерживается");
+            throw new IllegalArgumentException("Данный формат таска не поддерживается");
 
     }
 

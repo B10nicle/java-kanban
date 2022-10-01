@@ -42,15 +42,6 @@ public interface TasksManager {
     // удаление всех тасков, эпиков и сабтасков
     void removeAllTasksEpicsSubtasks();
 
-    // печать списка всех тасков
-    void printAllTasks();
-
-    // печать списка всех сабтасков
-    void printAllSubtasks();
-
-    // печать списка всех эпиков
-    void printAllEpics();
-
     // обновление таска
     void update(Task task);
 
@@ -71,6 +62,15 @@ public interface TasksManager {
 
     // получение истории
     List<Task> getHistory();
+
+    // печать списка всех тасков
+    void printAllTasks();
+
+    // печать списка всех сабтасков
+    void printAllSubtasks();
+
+    // печать списка всех эпиков
+    void printAllEpics();
 
     // печать приоритетного списка
     void printPrioritizedTasks();

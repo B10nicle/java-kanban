@@ -15,4 +15,5 @@ public class InMemoryTasksManagerTest extends TasksManagerTest {
         manager = new InMemoryTasksManager();
 
     }
+
 }

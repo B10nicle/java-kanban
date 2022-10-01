@@ -1,16 +1,20 @@
 package kanban.tests;
 
+import kanban.managers.historyManagers.inMemoryHistoryManager.InMemoryHistoryManager;
 import kanban.managers.taskManagers.exceptions.IntersectionException;
+import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.enums.TaskState;
-import kanban.utils.Formatter;
 import org.junit.jupiter.api.Test;
+import kanban.utils.Formatter;
 import kanban.tasks.Subtask;
 import kanban.tasks.Epic;
 import kanban.tasks.Task;
 
-import java.time.Instant;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.time.Instant;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,23 +26,23 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class TasksManagerTest {
 
-    List<Task> emptyList = new ArrayList<>();
+    private final List<Task> emptyList = new ArrayList<>();
     protected TasksManager manager;
 
-    private Task newTask() {
+    protected Task newTask() {
 
         return new Task("Task1", "Task1",
                 Instant.EPOCH, 0);
 
     }
 
-    private Epic newEpic() {
+    protected Epic newEpic() {
 
         return new Epic("Epic1", "Epic1");
 
     }
 
-    private Subtask newSubtask(Epic epic) {
+    protected Subtask newSubtask(Epic epic) {
 
         return new Subtask("Subtask1", "Subtask1",
                 Instant.EPOCH, 0, epic.getId());
@@ -215,12 +219,33 @@ public abstract class TasksManagerTest {
     }
 
     @Test
-    public void convertTasksToStringTest() {
+    public void tasksToStringTest() {
 
         var epic = manager.createEpic(newEpic());
         var subtask = manager.createSubtask(newSubtask(epic));
 
         assertEquals(epic + "\n" + subtask + "\n", Formatter.tasksToString(manager));
+
+    }
+
+    @Test
+    public void tasksFromStringTest() {
+
+        var realTask = new Task(1, "Task1", TaskState.NEW,
+                "Task1", Instant.EPOCH, 30);
+
+        var taskFromString = Formatter.tasksFromString(
+                "1,TASK,Task1,NEW,Task1,1970-01-01T00:00:00Z,30,1970-01-01T00:00:00Z");
+
+        assertEquals(realTask, taskFromString);
+
+    }
+
+    @Test
+    public void throwIllegalArgumentExceptionTest() {
+
+        assertThrows(IllegalArgumentException.class, () -> Formatter.tasksFromString(
+                "1,MASK,Task1,NEW,Task1,1970-01-01T00:00:00Z,30,1970-01-01T00:00:00Z"));
 
     }
 
@@ -261,4 +286,88 @@ public abstract class TasksManagerTest {
         });
 
     }
+
+    @Test
+    public void printAllTasksTest() {
+
+        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        var task = manager.createTask(newTask());
+        System.setOut(new PrintStream(outContent));
+        manager.printAllTasks();
+        assertEquals("№1 1,TASK,Task1,NEW,Task1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z\n",
+                outContent.toString());
+        System.setOut(System.out);
+
+    }
+
+    @Test
+    public void printAllSubtasksTest() {
+
+        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        var epic = manager.createEpic(newEpic());
+        var subtask = manager.createSubtask(newSubtask(epic));
+        System.setOut(new PrintStream(outContent));
+        manager.printAllSubtasks();
+        assertEquals("№2 2,SUBTASK,Subtask1,NEW,Subtask1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z,1\n",
+                outContent.toString());
+        System.setOut(System.out);
+
+    }
+
+    @Test
+    public void printAllEpicsTest() {
+
+        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        var epic = manager.createEpic(newEpic());
+        System.setOut(new PrintStream(outContent));
+        manager.printAllEpics();
+        assertEquals("№1 1,EPIC,Epic1,NEW,Epic1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z\n",
+                outContent.toString());
+        System.setOut(System.out);
+
+    }
+
+    @Test
+    public void printPrioritizedTasksTest() {
+
+        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        var task = manager.createTask(newTask());
+        System.setOut(new PrintStream(outContent));
+        manager.printPrioritizedTasks();
+        assertEquals("СПИСОК ПРИОРИТЕТНЫХ ЗАДАЧ: \n" +
+                        "1,TASK,Task1,NEW,Task1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z\n",
+                outContent.toString());
+        System.setOut(System.out);
+
+    }
+
+    @Test
+    public void historyToStringTest() {
+
+        HistoryManager manager = new InMemoryHistoryManager();
+
+        var task1 = new Task(1, "Task1", TaskState.NEW,
+                "Task1", Instant.EPOCH, 0);
+        var task2 = new Task(2, "Task2", TaskState.NEW,
+                "Task2", Instant.EPOCH, 0);
+        var task3 = new Task(3, "Task3", TaskState.NEW,
+                "Task3", Instant.EPOCH, 0);
+
+        manager.add(task1);
+        manager.add(task2);
+        manager.add(task3);
+
+        assertEquals(task1.getId() + ","
+                        + task2.getId() + ","
+                        + task3.getId() + ",",
+                Formatter.historyToString(manager));
+    }
+
+    @Test
+    public void historyFromStringTest() {
+
+        assertEquals(List.of(1, 2), Formatter.historyFromString("1,2"));
+
+    }
+
 }
