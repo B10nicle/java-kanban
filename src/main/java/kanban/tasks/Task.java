@@ -3,7 +3,6 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -32,6 +31,7 @@ public class Task {
         this.startTime = startTime;
         this.duration = duration;
         this.name = name;
+
     }
 
     public Task(int id,
@@ -48,6 +48,7 @@ public class Task {
         this.duration = duration;
         this.name = name;
         this.id = id;
+
     }
 
     public Instant getStartTime() {
@@ -58,36 +59,51 @@ public class Task {
 
     public Instant getEndTime() {
 
-        return startTime.plusSeconds(duration * 60L);
+        final byte SECONDS_IN_ONE_MINUTE = 60;
+
+        return startTime.plusSeconds(duration * SECONDS_IN_ONE_MINUTE);
 
     }
 
     public String getName() {
+
         return name;
+
     }
 
     public String getDescription() {
+
         return description;
+
     }
 
     public int getId() {
+
         return id;
+
     }
 
     public void setId(int id) {
+
         this.id = id;
+
     }
 
     public TaskState getTaskState() {
+
         return taskState;
+
     }
 
     public void setTaskState(TaskState taskState) {
+
         this.taskState = taskState;
+
     }
 
     @Override
     public String toString() {
+
         return id + ","
                 + taskType + ","
                 + name + ","
@@ -96,6 +112,7 @@ public class Task {
                 + getStartTime() + ","
                 + duration + ","
                 + getEndTime();
+
     }
 
     @Override
@@ -110,11 +127,14 @@ public class Task {
                 && Objects.equals(this.description, that.description)
                 && Objects.equals(this.id, that.id)
                 && Objects.equals(this.taskState, that.taskState);
+
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(name, description, id, taskState);
+
     }
 
 }

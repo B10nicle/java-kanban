@@ -1,4 +1,4 @@
-package kanban.managers.taskManagers.fileBackedTasksManager.exceptions;
+package kanban.managers.taskManagers.exceptions;
 
 /**
  * @author Oleg Khilko
@@ -7,7 +7,9 @@ package kanban.managers.taskManagers.fileBackedTasksManager.exceptions;
 public class NotSupportedTypeException extends RuntimeException {
 
     public NotSupportedTypeException(String message) {
+
         super(message);
+
     }
 
 }

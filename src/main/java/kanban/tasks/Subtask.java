@@ -3,7 +3,6 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -25,6 +24,7 @@ public class Subtask extends Task {
         super(name, description, startTime, duration);
         this.taskType = TaskType.SUBTASK;
         this.epicID = epicID;
+
     }
 
     public Subtask(int id,
@@ -40,14 +40,18 @@ public class Subtask extends Task {
         this.taskState = taskState;
         this.epicID = epicID;
         this.id = id;
+
     }
 
     public int getEpicID() {
+
         return epicID;
+
     }
 
     @Override
     public String toString() {
+
         return id + ","
                 + taskType + ","
                 + name + ","
@@ -57,10 +61,12 @@ public class Subtask extends Task {
                 + duration + ","
                 + getEndTime() + ","
                 + epicID;
+
     }
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (!(o instanceof Subtask)) return false;
         if (!super.equals(o)) return false;
@@ -68,11 +74,14 @@ public class Subtask extends Task {
         Subtask that = (Subtask) o;
 
         return Objects.equals(this.epicID, that.epicID);
+
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(super.hashCode(), epicID);
+
     }
 
 }

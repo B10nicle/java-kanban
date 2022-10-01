@@ -1,30 +1,31 @@
 package kanban.managers.taskManagers.inMemoryTasksManager;
 
-import kanban.managers.Managers;
+import kanban.managers.taskManagers.exceptions.IntersectionException;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
+import kanban.managers.Managers;
+import kanban.tasks.Subtask;
 import kanban.tasks.Epic;
 import kanban.tasks.Task;
-import kanban.tasks.Subtask;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Oleg Khilko
  */
 
-public class InMemoryTasksManager implements TasksManager {
+public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
 
-    private Set<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     protected static HistoryManager historyManager;
     protected Map<Integer, Subtask> subtasks;
+    private Set<Task> prioritizedTasks;
     protected Map<Integer, Task> tasks;
     protected Map<Integer, Epic> epics;
     protected int id;
 
     public InMemoryTasksManager() {
 
+        prioritizedTasks = new TreeSet<>(this);
         historyManager = Managers.getDefaultHistory();
         this.subtasks = new HashMap<>();
         this.tasks = new HashMap<>();
@@ -38,42 +39,85 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // получение мапы всех тасков
-    @Override
-    public Collection<Task> getTasks() {
+    // получение приоритетного списка + его конвертация из TreeSet в ArrayList
+    private List<Task> getPrioritizedTasks() {
 
-        return tasks.values();
-
-    }
-
-    // получение мапы всех эпиков
-    @Override
-    public Collection<Epic> getEpics() {
-
-        return epics.values();
+        return new ArrayList<>(prioritizedTasks);
 
     }
 
-    // получение мапы всех сабтасков
-    @Override
-    public Collection<Subtask> getSubtasks() {
+    // добавление таска в список + проверка нет ли пересечения
+    private void addToPrioritizedTasks(Task task) {
 
-        return subtasks.values();
+        prioritizedTasks.add(task);
+        checkIntersections();
 
     }
 
-    // запрос таска
+    // проверка нет ли пересечения
+    private void checkIntersections() {
+
+        var prioritizedTasks = getPrioritizedTasks();
+
+        for (int i = 1; i < prioritizedTasks.size(); i++) {
+
+            var prioritizedTask = prioritizedTasks.get(i);
+
+            if (prioritizedTask.getStartTime().isBefore(prioritizedTasks.get(i - 1).getEndTime()))
+
+                throw new IntersectionException("Найдено пересечение между "
+                        + prioritizedTasks.get(i)
+                        + " и "
+                        + prioritizedTasks.get(i - 1));
+        }
+
+    }
+
+    // печать приоритетного списка
+    public void printPrioritizedTasks() {
+
+        System.out.println("СПИСОК ПРИОРИТЕТНЫХ ЗАДАЧ: ");
+        prioritizedTasks.forEach(System.out::println);
+
+    }
+
+    @Override // сравнение тасков по getStartTime()
+    public int compare(Task o1, Task o2) {
+
+        return o1.getStartTime().compareTo(o2.getStartTime());
+
+    }
+
+    @Override
+    public List<Task> getTasks() {
+
+        return new ArrayList<>(tasks.values());
+
+    }
+
+    @Override
+    public List<Epic> getEpics() {
+
+        return new ArrayList<>(epics.values());
+
+    }
+
+    @Override
+    public List<Subtask> getSubtasks() {
+
+        return new ArrayList<>(subtasks.values());
+
+    }
+
     @Override
     public Task getTask(int id) {
 
         var task = tasks.get(id);
         historyManager.add(task);
-
         return task;
 
     }
 
-    // запрос эпика
     @Override
     public Epic getEpic(int id) {
 
@@ -83,7 +127,6 @@ public class InMemoryTasksManager implements TasksManager {
         return epic;
     }
 
-    // запрос сабтаска
     @Override
     public Subtask getSubtask(int id) {
 
@@ -93,7 +136,6 @@ public class InMemoryTasksManager implements TasksManager {
         return subtask;
     }
 
-    // создание таска
     @Override
     public Task createTask(Task task) {
 
@@ -104,7 +146,6 @@ public class InMemoryTasksManager implements TasksManager {
         return task;
     }
 
-    // создание эпика
     @Override
     public Epic createEpic(Epic epic) {
 
@@ -114,7 +155,6 @@ public class InMemoryTasksManager implements TasksManager {
         return epic;
     }
 
-    // создание сабтаска
     @Override
     public Subtask createSubtask(Subtask subtask) {
 
@@ -128,24 +168,27 @@ public class InMemoryTasksManager implements TasksManager {
         return subtask;
     }
 
-    // удаление таска
     @Override
     public void removeTask(int id) {
 
         tasks.remove(id);
         historyManager.remove(id);
+        prioritizedTasks.removeIf(t -> t.getId() == id);
 
     }
 
-    // удаление эпика
     @Override
     public void removeEpic(int epicID) {
 
         var epic = epics.get(epicID);
 
-        for (Integer subtask : epic.getSubtasks()) {
-            subtasks.remove(subtask);
-            historyManager.remove(subtask);
+        if (epic == null)
+            return;
+
+        for (Integer id : epic.getSubtasks()) {
+            prioritizedTasks.removeIf(t -> t.getId() == id);
+            subtasks.remove(id);
+            historyManager.remove(id);
         }
 
         epics.remove(epicID);
@@ -153,12 +196,16 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // удаление сабтаска
     @Override
     public void removeSubtask(int id) {
 
         var subtask = subtasks.get(id);
+
+        if (subtask == null)
+            return;
+
         var epic = epics.get(subtask.getEpicID());
+        prioritizedTasks.remove(subtask);
         epic.removeSubtask(subtask);
         subtasks.remove(id);
         epic.updateEpicState(subtasks);
@@ -166,19 +213,17 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // удаление всех тасков, эпиков и сабтасков
     @Override
     public void removeAllTasksEpicsSubtasks() {
 
-        tasks.clear();
-        epics.clear();
-        subtasks.clear();
-        historyManager.clear();
         prioritizedTasks.clear();
+        historyManager.clear();
+        subtasks.clear();
+        epics.clear();
+        tasks.clear();
 
     }
 
-    // печать списка всех тасков
     @Override
     public void printAllTasks() {
 
@@ -192,7 +237,6 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // печать списка всех сабтасков
     @Override
     public void printAllSubtasks() {
 
@@ -206,7 +250,6 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // печать списка всех эпиков
     @Override
     public void printAllEpics() {
 
@@ -220,7 +263,6 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // обновление таска
     @Override
     public void update(Task task) {
 
@@ -229,7 +271,6 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // обновление сабтаска
     @Override
     public void update(Subtask subtask) {
 
@@ -240,7 +281,6 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // обновление эпика
     @Override
     public void update(Epic epic) {
 
@@ -248,39 +288,10 @@ public class InMemoryTasksManager implements TasksManager {
 
     }
 
-    // получение истории
     @Override
     public List<Task> getHistory() {
 
         return historyManager.getHistory();
-
-    }
-
-    private List<Task> getPrioritizedTasks() {
-
-        return new ArrayList<>(prioritizedTasks);
-
-    }
-
-    private void addToPrioritizedTasks(Task task) {
-
-        prioritizedTasks.add(task);
-        checkIntersections();
-
-    }
-
-    private void checkIntersections() {
-
-        var tasks = getPrioritizedTasks();
-
-        for (int i = 1; i < tasks.size(); i++) {
-
-            var task = tasks.get(i);
-
-            if (task.getStartTime().isBefore(tasks.get(i - 1).getEndTime()))
-                throw new RuntimeException("Пересечение между " + task.getId() + " и " + tasks.get(i - 1));
-
-        }
 
     }
 

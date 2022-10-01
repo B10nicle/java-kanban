@@ -1,12 +1,10 @@
 package kanban.managers.taskManagers;
 
-import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
+import kanban.tasks.Epic;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Oleg Khilko
@@ -15,13 +13,13 @@ import java.util.Set;
 public interface TasksManager {
 
     // получение мапы всех тасков
-    Collection<Task> getTasks();
+    List<Task> getTasks();
 
     // получение мапы всех эпиков
-    Collection<Epic> getEpics();
+    List<Epic> getEpics();
 
     // получение мапы всех сабтасков
-    Collection<Subtask> getSubtasks();
+    List<Subtask> getSubtasks();
 
     // создание таска
     Task createTask(Task task);
@@ -73,5 +71,8 @@ public interface TasksManager {
 
     // получение истории
     List<Task> getHistory();
+
+    // печать приоритетного списка
+    void printPrioritizedTasks();
 
 }

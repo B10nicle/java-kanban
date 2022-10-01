@@ -3,14 +3,11 @@ package kanban.tasks;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Map;
+import java.time.Duration;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.time.Instant;
+import java.util.Map;
 
 /**
  * @author Oleg Khilko
@@ -28,6 +25,7 @@ public class Epic extends Task {
         super(name, description, Instant.ofEpochSecond(0), 0);
         this.subtasks = new ArrayList<>();
         this.taskType = TaskType.EPIC;
+
     }
 
     public Epic(int id,
@@ -43,9 +41,10 @@ public class Epic extends Task {
         this.taskType = TaskType.EPIC;
         this.taskState = taskState;
         this.id = id;
+
     }
 
-    // обновление статуса эпик
+    // обновление состояния эпика
     public void updateEpicState(Map<Integer, Subtask> subs) {
 
         Instant startTime = subs.get(subtasks.get(0)).getStartTime();
@@ -85,27 +84,37 @@ public class Epic extends Task {
         }
 
         setTaskState(TaskState.IN_PROGRESS);
+
     }
 
     public ArrayList<Integer> getSubtasks() {
+
         return subtasks;
+
     }
 
     public void addSubtask(Subtask subtask) {
+
         subtasks.add(subtask.getId());
+
     }
 
     public void removeSubtask(Subtask subtask) {
+
         subtasks.remove(subtask.getId());
+
     }
 
     @Override
     public Instant getEndTime() {
+
         return endTime;
+
     }
 
     @Override
     public String toString() {
+
         return id + ","
                 + taskType + ","
                 + name + ","
@@ -114,10 +123,12 @@ public class Epic extends Task {
                 + getStartTime() + ","
                 + duration + ","
                 + getEndTime();
+
     }
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (!(o instanceof Epic)) return false;
         if (!super.equals(o)) return false;
@@ -125,11 +136,14 @@ public class Epic extends Task {
         Epic that = (Epic) o;
 
         return Objects.equals(this.subtasks, that.subtasks);
+
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(super.hashCode(), subtasks);
+
     }
 
 }

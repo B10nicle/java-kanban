@@ -26,14 +26,18 @@ class CustomLinkedList {
         last = newNode;
 
         return newNode;
+
     }
 
     public void clear() {
+
         first = null;
         last = null;
+
     }
 
     public List<Task> getTasks() {
+
         List<Task> tasks = new ArrayList<>();
         Node<Task> element = first;
 
@@ -43,9 +47,13 @@ class CustomLinkedList {
         }
 
         return tasks;
+
     }
 
     public void removeNode(Node<Task> node) {
+
+        if (node == null)
+            return;
 
         if (node.equals(first)) {
             first = node.next;
