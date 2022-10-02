@@ -206,7 +206,6 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
 
         var epic = epics.get(subtask.getEpicID());
         prioritizedTasks.remove(subtask);
-        epic.removeSubtask(subtask);
         subtasks.remove(id);
         epic.updateEpicState(subtasks);
         historyManager.remove(id);

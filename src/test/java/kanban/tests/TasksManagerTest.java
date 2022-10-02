@@ -4,6 +4,7 @@ import kanban.managers.historyManagers.inMemoryHistoryManager.InMemoryHistoryMan
 import kanban.managers.taskManagers.exceptions.IntersectionException;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
+import kanban.managers.taskManagers.inMemoryTasksManager.InMemoryTasksManager;
 import kanban.tasks.enums.TaskState;
 import org.junit.jupiter.api.Test;
 import kanban.utils.Formatter;
