@@ -32,6 +32,7 @@ public class FileBackedTaskManagerTest extends TasksManagerTest {
         var task1 = manager.createTask(newTask());
         var epic1 = manager.createEpic(newEpic());
         var subtask1 = manager.createSubtask(newSubtask(epic1));
+
         manager.getTask(task1.getId());
         manager.getEpic(epic1.getId());
         manager.getSubtask(subtask1.getId());

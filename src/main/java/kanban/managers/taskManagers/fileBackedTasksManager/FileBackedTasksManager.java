@@ -19,13 +19,10 @@ import java.io.*;
 
 public class FileBackedTasksManager extends InMemoryTasksManager implements TasksManager {
 
-    private Path filePath = Path.of("results.csv");
+    private final Path filePath;
 
     public FileBackedTasksManager(Path filePath) {
         this.filePath = filePath;
-    }
-
-    public FileBackedTasksManager() {
     }
 
     @Override

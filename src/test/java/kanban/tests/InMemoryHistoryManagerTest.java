@@ -1,10 +1,10 @@
 package kanban.tests;
 
-import kanban.managers.historyManagers.inMemoryHistoryManager.InMemoryHistoryManager;
 import kanban.managers.historyManagers.HistoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import kanban.tasks.enums.TaskState;
 import org.junit.jupiter.api.Test;
+import kanban.managers.Managers;
 import kanban.tasks.Task;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class InMemoryHistoryManagerTest {
     @BeforeEach
     public void loadManager() {
 
-        manager = new InMemoryHistoryManager();
+        manager = Managers.getDefaultHistory();
 
     }
 

@@ -50,43 +50,73 @@ public abstract class TasksManagerTest {
     }
 
     @Test
+    public void getEpicIDTest() {
+
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+
+        assertEquals(epic1.getId(), subtask1.getEpicID());
+
+    }
+
+    @Test
+    public void getTaskNameTest() {
+
+        var task1 = manager.createTask(newTask());
+
+        assertEquals("Task1", task1.getName());
+
+    }
+
+    @Test
+    public void getTaskDescriptionTest() {
+
+        var task1 = manager.createTask(newTask());
+
+        assertEquals("Task1", task1.getDescription());
+
+    }
+
+    @Test
     public void createNewTaskTest() {
 
-        var task = manager.createTask(newTask());
+        var task1 = manager.createTask(newTask());
         var tasks = manager.getTasks();
 
-        assertEquals(List.of(task), tasks);
+        assertEquals(List.of(task1), tasks);
 
     }
 
     @Test
     public void createNewEpicTest() {
 
-        var epic = manager.createEpic(newEpic());
+        var epic1 = manager.createEpic(newEpic());
         var epics = manager.getEpics();
 
-        assertEquals(List.of(epic), epics);
+        assertEquals(List.of(epic1), epics);
 
     }
 
     @Test
     public void createNewSubtaskTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
         var subtasks = manager.getSubtasks();
 
-        assertEquals(List.of(subtask), subtasks);
+        assertEquals(List.of(subtask1), subtasks);
 
     }
 
     @Test
     public void updateTaskStateTest() {
 
-        var task = manager.createTask(newTask());
-        task.setTaskState(TaskState.IN_PROGRESS);
-        manager.update(task);
-        var updatedTaskState = manager.getTask(task.getId()).getTaskState();
+        var task1 = manager.createTask(newTask());
+
+        task1.setTaskState(TaskState.IN_PROGRESS);
+        manager.update(task1);
+
+        var updatedTaskState = manager.getTask(task1.getId()).getTaskState();
 
         assertEquals(TaskState.IN_PROGRESS, updatedTaskState);
 
@@ -95,12 +125,14 @@ public abstract class TasksManagerTest {
     @Test
     public void updateSubtaskStateDoneTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
-        subtask.setTaskState(TaskState.DONE);
-        manager.update(subtask);
-        var updatedEpicState = manager.getEpic(epic.getId()).getTaskState();
-        var updatedSubtaskState = manager.getSubtask(subtask.getId()).getTaskState();
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+        subtask1.setTaskState(TaskState.DONE);
+
+        manager.update(subtask1);
+
+        var updatedEpicState = manager.getEpic(epic1.getId()).getTaskState();
+        var updatedSubtaskState = manager.getSubtask(subtask1.getId()).getTaskState();
 
         assertEquals(TaskState.DONE, updatedEpicState);
         assertEquals(TaskState.DONE, updatedSubtaskState);
@@ -110,26 +142,28 @@ public abstract class TasksManagerTest {
     @Test
     public void noSubtaskRemoveIfIncorrectIDTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
 
         manager.removeSubtask(42);
 
-        assertEquals(List.of(subtask), manager.getSubtasks());
+        assertEquals(List.of(subtask1), manager.getSubtasks());
 
     }
 
     @Test
     public void updateEpicStateToInProgressTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask1 = manager.createSubtask(newSubtask(epic));
-        var subtask2 = manager.createSubtask(newSubtask(epic));
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+        var subtask2 = manager.createSubtask(newSubtask(epic1));
+
         subtask1.setTaskState(TaskState.IN_PROGRESS);
         manager.update(subtask1);
         subtask2.setTaskState(TaskState.DONE);
         manager.update(subtask2);
-        var updatedEpicState = manager.getEpic(epic.getId()).getTaskState();
+
+        var updatedEpicState = manager.getEpic(epic1.getId()).getTaskState();
 
         assertEquals(TaskState.IN_PROGRESS, updatedEpicState);
 
@@ -138,9 +172,10 @@ public abstract class TasksManagerTest {
     @Test
     public void removeAllTasksEpicsSubtasksTest() {
 
-        var task = manager.createTask(newTask());
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
+        var task1 = manager.createTask(newTask());
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+
         manager.removeAllTasksEpicsSubtasks();
 
         assertEquals(emptyList, manager.getTasks());
@@ -152,8 +187,9 @@ public abstract class TasksManagerTest {
     @Test
     public void removeTaskTest() {
 
-        var task = manager.createTask(newTask());
-        manager.removeTask(task.getId());
+        var task1 = manager.createTask(newTask());
+
+        manager.removeTask(task1.getId());
 
         assertEquals(emptyList, manager.getTasks());
 
@@ -162,12 +198,14 @@ public abstract class TasksManagerTest {
     @Test
     public void updateSubtaskStateInProgressTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
-        subtask.setTaskState(TaskState.IN_PROGRESS);
-        manager.update(subtask);
-        var updatedEpicState = manager.getEpic(epic.getId()).getTaskState();
-        var updatedSubtaskState = manager.getSubtask(subtask.getId()).getTaskState();
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+
+        subtask1.setTaskState(TaskState.IN_PROGRESS);
+        manager.update(subtask1);
+
+        var updatedEpicState = manager.getEpic(epic1.getId()).getTaskState();
+        var updatedSubtaskState = manager.getSubtask(subtask1.getId()).getTaskState();
 
         assertEquals(TaskState.IN_PROGRESS, updatedEpicState);
         assertEquals(TaskState.IN_PROGRESS, updatedSubtaskState);
@@ -177,19 +215,21 @@ public abstract class TasksManagerTest {
     @Test
     public void noTaskRemoveIfIncorrectIDTest() {
 
-        var task = manager.createTask(newTask());
+        var task1 = manager.createTask(newTask());
+
         manager.removeTask(42);
 
-        assertEquals(List.of(task), manager.getTasks());
+        assertEquals(List.of(task1), manager.getTasks());
 
     }
 
     @Test
     public void removeEpicTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
-        manager.removeEpic(epic.getId());
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+
+        manager.removeEpic(epic1.getId());
 
         assertEquals(emptyList, manager.getEpics());
 
@@ -198,33 +238,34 @@ public abstract class TasksManagerTest {
     @Test
     public void calculateStartAndEndTimeOfEpicTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask1 = manager.createSubtask(newSubtask(epic));
-        var subtask2 = manager.createSubtask(newSubtask(epic));
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+        var subtask2 = manager.createSubtask(newSubtask(epic1));
 
-        assertEquals(subtask1.getStartTime(), epic.getStartTime());
-        assertEquals(subtask2.getEndTime(), epic.getEndTime());
+        assertEquals(subtask1.getStartTime(), epic1.getStartTime());
+        assertEquals(subtask2.getEndTime(), epic1.getEndTime());
 
     }
 
     @Test
     public void noEpicRemoveIfIncorrectIDTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+
         manager.removeEpic(42);
 
-        assertEquals(List.of(epic), manager.getEpics());
+        assertEquals(List.of(epic1), manager.getEpics());
 
     }
 
     @Test
     public void tasksToStringTest() {
 
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
 
-        assertEquals(epic + "\n" + subtask + "\n", Formatter.tasksToString(manager));
+        assertEquals(epic1 + "\n" + subtask1 + "\n", Formatter.tasksToString(manager));
 
     }
 
@@ -259,14 +300,15 @@ public abstract class TasksManagerTest {
     @Test
     public void returnHistoryWithTasksTest() {
 
-        var task = manager.createTask(newTask());
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
-        manager.getSubtask(subtask.getId());
-        manager.getEpic(epic.getId());
-        manager.getTask(task.getId());
+        var task1 = manager.createTask(newTask());
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
 
-        assertEquals(List.of(subtask, epic, task), manager.getHistory());
+        manager.getSubtask(subtask1.getId());
+        manager.getEpic(epic1.getId());
+        manager.getTask(task1.getId());
+
+        assertEquals(List.of(subtask1, epic1, task1), manager.getHistory());
 
     }
 
@@ -291,7 +333,7 @@ public abstract class TasksManagerTest {
     public void printAllTasksTest() {
 
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        var task = manager.createTask(newTask());
+        var task1 = manager.createTask(newTask());
         System.setOut(new PrintStream(outContent));
         manager.printAllTasks();
         assertEquals("№1 1,TASK,Task1,NEW,Task1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z\n",
@@ -304,8 +346,8 @@ public abstract class TasksManagerTest {
     public void printAllSubtasksTest() {
 
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        var epic = manager.createEpic(newEpic());
-        var subtask = manager.createSubtask(newSubtask(epic));
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
         System.setOut(new PrintStream(outContent));
         manager.printAllSubtasks();
         assertEquals("№2 2,SUBTASK,Subtask1,NEW,Subtask1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z,1\n",
@@ -318,7 +360,7 @@ public abstract class TasksManagerTest {
     public void printAllEpicsTest() {
 
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        var epic = manager.createEpic(newEpic());
+        var epic1 = manager.createEpic(newEpic());
         System.setOut(new PrintStream(outContent));
         manager.printAllEpics();
         assertEquals("№1 1,EPIC,Epic1,NEW,Epic1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z\n",
@@ -331,7 +373,7 @@ public abstract class TasksManagerTest {
     public void printPrioritizedTasksTest() {
 
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        var task = manager.createTask(newTask());
+        var task1 = manager.createTask(newTask());
         System.setOut(new PrintStream(outContent));
         manager.printPrioritizedTasks();
         assertEquals("СПИСОК ПРИОРИТЕТНЫХ ЗАДАЧ: \n" +
