@@ -50,6 +50,34 @@ public abstract class TasksManagerTest {
     }
 
     @Test
+    public void hashCodeTaskTest() {
+
+        var task1 = manager.createTask(newTask());
+
+        assertEquals(List.of(task1).hashCode(), manager.getTasks().hashCode());
+
+    }
+
+    @Test
+    public void hashCodeSubtaskTest() {
+
+        var epic1 = manager.createEpic(newEpic());
+        var subtask1 = manager.createSubtask(newSubtask(epic1));
+
+        assertEquals(List.of(subtask1).hashCode(), manager.getSubtasks().hashCode());
+
+    }
+
+    @Test
+    public void hashCodeEpicTest() {
+
+        var epic1 = manager.createEpic(newEpic());
+
+        assertEquals(List.of(epic1).hashCode(), manager.getEpics().hashCode());
+
+    }
+
+    @Test
     public void getEpicIDTest() {
 
         var epic1 = manager.createEpic(newEpic());
@@ -162,6 +190,20 @@ public abstract class TasksManagerTest {
         manager.update(subtask1);
         subtask2.setTaskState(TaskState.DONE);
         manager.update(subtask2);
+
+        var updatedEpicState = manager.getEpic(epic1.getId()).getTaskState();
+
+        assertEquals(TaskState.IN_PROGRESS, updatedEpicState);
+
+    }
+
+    @Test
+    public void updateEpicTest() {
+
+        var epic1 = manager.createEpic(newEpic());
+
+        epic1.setTaskState(TaskState.IN_PROGRESS);
+        manager.update(epic1);
 
         var updatedEpicState = manager.getEpic(epic1.getId()).getTaskState();
 
@@ -337,6 +379,42 @@ public abstract class TasksManagerTest {
         System.setOut(new PrintStream(outContent));
         manager.printAllTasks();
         assertEquals("№1 1,TASK,Task1,NEW,Task1,1970-01-01T00:00:00Z,0,1970-01-01T00:00:00Z\n",
+                outContent.toString());
+        System.setOut(System.out);
+
+    }
+
+    @Test
+    public void printAllTasksIfListIsEmptyTest() {
+
+        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        manager.printAllTasks();
+        assertEquals("Список тасков пуст.\n",
+                outContent.toString());
+        System.setOut(System.out);
+
+    }
+
+    @Test
+    public void printAllSubtasksIfListIsEmptyTest() {
+
+        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        manager.printAllSubtasks();
+        assertEquals("Список сабтасков пуст.\n",
+                outContent.toString());
+        System.setOut(System.out);
+
+    }
+
+    @Test
+    public void printAllEpicsIfListIsEmptyTest() {
+
+        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        manager.printAllEpics();
+        assertEquals("Список эпиков пуст.\n",
                 outContent.toString());
         System.setOut(System.out);
 
