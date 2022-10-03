@@ -101,6 +101,30 @@ public class Task {
 
     }
 
+    public TaskType getTaskType() {
+
+        return taskType;
+
+    }
+
+    public void setStartTime(Instant startTime) {
+
+        this.startTime = startTime;
+
+    }
+
+    public long getDuration() {
+
+        return duration;
+
+    }
+
+    public void setDuration(long duration) {
+
+        this.duration = duration;
+
+    }
+
     @Override
     public String toString() {
 

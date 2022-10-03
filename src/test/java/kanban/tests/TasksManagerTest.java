@@ -6,6 +6,7 @@ import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.managers.taskManagers.inMemoryTasksManager.InMemoryTasksManager;
 import kanban.tasks.enums.TaskState;
+import kanban.tasks.enums.TaskType;
 import org.junit.jupiter.api.Test;
 import kanban.utils.Formatter;
 import kanban.tasks.Subtask;
@@ -85,6 +86,57 @@ public abstract class TasksManagerTest {
         var subtask1 = manager.createSubtask(newSubtask(epic1));
 
         assertEquals(epic1.getId(), subtask1.getEpicID());
+
+    }
+
+    @Test
+    public void setEpicEndTimeTest() {
+
+        var epic1 = manager.createEpic(newEpic());
+
+        epic1.setEndTime(Instant.ofEpochSecond(42));
+
+        assertEquals(Instant.ofEpochSecond(42), epic1.getEndTime());
+
+    }
+
+    @Test
+    public void getTaskTypeTest() {
+
+        var task1 = manager.createTask(newTask());
+
+        assertEquals(TaskType.TASK, task1.getTaskType());
+
+    }
+
+    @Test
+    public void getDurationTest() {
+
+        var task1 = manager.createTask(newTask());
+
+        assertEquals(0, task1.getDuration());
+
+    }
+
+    @Test
+    public void setDurationTest() {
+
+        var task1 = manager.createTask(newTask());
+
+        task1.setDuration(42);
+
+        assertEquals(42, task1.getDuration());
+
+    }
+
+    @Test
+    public void setStartTimeTest() {
+
+        var task1 = manager.createTask(newTask());
+
+        task1.setStartTime(Instant.ofEpochSecond(42));
+
+        assertEquals(Instant.ofEpochSecond(42), task1.getStartTime());
 
     }
 
