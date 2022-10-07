@@ -4,7 +4,6 @@ import kanban.managers.historyManagers.inMemoryHistoryManager.InMemoryHistoryMan
 import kanban.managers.taskManagers.exceptions.IntersectionException;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
-import kanban.managers.taskManagers.inMemoryTasksManager.InMemoryTasksManager;
 import kanban.tasks.enums.TaskState;
 import kanban.tasks.enums.TaskType;
 import org.junit.jupiter.api.Test;
@@ -19,8 +18,7 @@ import java.util.ArrayList;
 import java.time.Instant;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Oleg Khilko

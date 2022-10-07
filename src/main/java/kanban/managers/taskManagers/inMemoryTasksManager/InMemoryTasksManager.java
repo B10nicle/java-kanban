@@ -114,6 +114,7 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
 
         var task = tasks.get(id);
         historyManager.add(task);
+
         return task;
 
     }
