@@ -88,26 +88,32 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
     }
 
     @Override
-    public void update(Task task) {
+    public Task update(Task task) {
 
-        super.update(task);
+        var updatedTask = super.update(task);
         save();
+
+        return updatedTask;
 
     }
 
     @Override
-    public void update(Epic epic) {
+    public Epic update(Epic epic) {
 
-        super.update(epic);
+        var updatedEpic = super.update(epic);
         save();
+
+        return updatedEpic;
 
     }
 
     @Override
-    public void update(Subtask subtask) {
+    public Subtask update(Subtask subtask) {
 
-        super.update(subtask);
+        var updatedSubtask = super.update(subtask);
         save();
+
+        return updatedSubtask;
 
     }
 
@@ -172,7 +178,10 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
 
         var fileBackedTasksManager = new FileBackedTasksManager(path);
 
+        int initialID = 0;
+
         try {
+
             var fileName = Files.readString(path);
 
             var lines = fileName.split("\n");
@@ -181,6 +190,9 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
 
                 var task = Formatter.tasksFromString(lines[i]);
                 var type = lines[i].split(",")[1];
+
+                if (task.getId() > initialID)
+                    initialID = task.getId();
 
                 if (TaskType.valueOf(type).equals(TaskType.TASK)) {
 

@@ -12,7 +12,7 @@ public class InMemoryTasksManagerTest extends TasksManagerTest {
     @BeforeEach
     public void loadManager() {
 
-        manager = Managers.getDefault();
+        manager = Managers.getDefaultManager();
 
     }
 

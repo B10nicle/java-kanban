@@ -26,7 +26,7 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
     public InMemoryTasksManager() {
 
         prioritizedTasks = new TreeSet<>(this);
-        historyManager = Managers.getDefaultHistory();
+        historyManager = Managers.getDefaultHistoryManager();
         this.subtasks = new HashMap<>();
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
@@ -264,27 +264,33 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
     }
 
     @Override
-    public void update(Task task) {
+    public Task update(Task task) {
 
         tasks.put(task.getId(), task);
         addToPrioritizedTasks(task);
 
+        return task;
+
     }
 
     @Override
-    public void update(Subtask subtask) {
+    public Subtask update(Subtask subtask) {
 
         subtasks.put(subtask.getId(), subtask);
         addToPrioritizedTasks(subtask);
         var epic = epics.get(subtask.getEpicID());
         epic.updateEpicState(subtasks);
 
+        return subtask;
+
     }
 
     @Override
-    public void update(Epic epic) {
+    public Epic update(Epic epic) {
 
         epics.put(epic.getId(), epic);
+
+        return epic;
 
     }
 

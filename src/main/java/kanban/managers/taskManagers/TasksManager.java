@@ -43,13 +43,13 @@ public interface TasksManager {
     void removeAllTasksEpicsSubtasks();
 
     // обновление таска
-    void update(Task task);
+    Task update(Task task);
 
     // обновление сабтаска
-    void update(Subtask subtask);
+    Subtask update(Subtask subtask);
 
     // обновление эпика
-    void update(Epic epic);
+    Epic update(Epic epic);
 
     // запрос таска
     Task getTask(int id);

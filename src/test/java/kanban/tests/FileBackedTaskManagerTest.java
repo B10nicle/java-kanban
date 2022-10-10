@@ -1,7 +1,9 @@
 package kanban.tests;
 
+import kanban.managers.Managers;
 import kanban.managers.taskManagers.fileBackedTasksManager.FileBackedTasksManager;
 import kanban.managers.taskManagers.exceptions.ManagerSaveException;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FileBackedTaskManagerTest extends TasksManagerTest {
 
-    private Path filePath = Path.of("resultsTest.csv");
+    private Path filePath = Path.of("src/test/resources/resultsTest.csv");
 
     @BeforeEach
     public void loadManager() {
 
-        manager = new FileBackedTasksManager(filePath);
+        manager = Managers.getDefaultFileBackedManager(filePath);
 
     }
 
@@ -48,7 +50,7 @@ public class FileBackedTaskManagerTest extends TasksManagerTest {
     @Test
     public void throwManagerSaveExceptionTest() {
 
-        filePath = Path.of("probablyShouldFinallyFall.csv");
+        filePath = Path.of("probablyShouldFinallyFall");
 
         assertThrows(ManagerSaveException.class, () -> FileBackedTasksManager.load(filePath));
 
