@@ -50,7 +50,7 @@ public class FileBackedTaskManagerTest extends TasksManagerTest {
     @Test
     public void throwManagerSaveExceptionTest() {
 
-        filePath = Path.of("probablyShouldFinallyFall");
+        filePath = Path.of("probablyShouldFinallyFall.exe");
 
         assertThrows(ManagerSaveException.class, () -> FileBackedTasksManager.load(filePath));
 

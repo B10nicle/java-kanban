@@ -1,5 +1,6 @@
 package kanban;
 
+import kanban.servers.HttpTaskServer;
 import kanban.servers.KVServer;
 
 import java.io.IOException;
@@ -12,7 +13,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        new KVServer().start();
+        new HttpTaskServer();
+
+        //new KVServer().start();
 
     }
 
