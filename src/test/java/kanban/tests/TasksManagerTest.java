@@ -38,7 +38,7 @@ public abstract class TasksManagerTest {
 
     protected Epic newEpic() {
 
-        return new Epic("Epic1", "Epic1");
+        return new Epic("Epic1", "Epic1", TaskType.EPIC);
 
     }
 

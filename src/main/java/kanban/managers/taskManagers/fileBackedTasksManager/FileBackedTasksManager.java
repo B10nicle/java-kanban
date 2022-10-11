@@ -145,7 +145,7 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
     }
 
     // сохранение в файл
-    private void save() {
+    protected void save() {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath.toFile()));
              BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {

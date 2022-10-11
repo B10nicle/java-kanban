@@ -20,11 +20,12 @@ public class Epic extends Task {
     private final TaskType taskType;
 
     public Epic(String name,
-                String description) {
+                String description,
+                TaskType type) {
 
         super(name, description, Instant.ofEpochSecond(0), 0);
         this.subtasks = new ArrayList<>();
-        this.taskType = TaskType.EPIC;
+        this.taskType = type;
 
     }
 

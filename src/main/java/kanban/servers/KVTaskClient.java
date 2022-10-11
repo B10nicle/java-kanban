@@ -1,4 +1,4 @@
-package kanban.servers.KV;
+package kanban.servers;
 
 /**
  * @author Oleg Khilko

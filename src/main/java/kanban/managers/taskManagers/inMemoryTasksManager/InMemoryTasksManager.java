@@ -180,14 +180,16 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
     @Override
     public Subtask createSubtask(Subtask subtask) {
 
-        var epic = epics.get(subtask.getEpicID());
         subtask.setId(getNextID());
         subtasks.put(subtask.getId(), subtask);
+        var epic = epics.get(subtask.getEpicID());
+        epic.addSubtask(subtask);
         addToPrioritizedTasks(subtask);
         epic.addSubtask(subtask);
         epic.updateEpicState(subtasks);
 
         return subtask;
+
     }
 
     @Override

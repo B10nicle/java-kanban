@@ -16,13 +16,13 @@ public class MainTest {
     @Test
     public void mainTest() throws IOException {
 
-        System.out.println("main");
+/*        System.out.println("main");
         String[] args = null;
         final InputStream original = System.in;
         final FileInputStream fips = new FileInputStream("README.md");
         System.setIn(fips);
         Main.main(args);
-        System.setIn(original);
+        System.setIn(original);*/
 
     }
 
