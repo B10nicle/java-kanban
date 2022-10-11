@@ -5,6 +5,7 @@ import kanban.tasks.Task;
 import kanban.tasks.Epic;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Oleg Khilko
@@ -12,13 +13,22 @@ import java.util.List;
 
 public interface TasksManager {
 
-    // получение мапы всех тасков
+    // получение таска по ID
+    Map<Integer, Task> getTasksByID();
+
+    // получение эпика по ID
+    Map<Integer, Epic> getEpicsByID();
+
+    // получение сабтаска по ID
+    Map<Integer, Subtask> getSubtasksByID();
+
+    // получение списка всех тасков
     List<Task> getTasks();
 
-    // получение мапы всех эпиков
+    // получение списка всех эпиков
     List<Epic> getEpics();
 
-    // получение мапы всех сабтасков
+    // получение списка всех сабтасков
     List<Subtask> getSubtasks();
 
     // создание таска
@@ -62,6 +72,9 @@ public interface TasksManager {
 
     // получение истории
     List<Task> getHistory();
+
+    // получение приоритетного списка тасков
+    List<Task> getPrioritizedTasks();
 
     // печать списка всех тасков
     void printAllTasks();

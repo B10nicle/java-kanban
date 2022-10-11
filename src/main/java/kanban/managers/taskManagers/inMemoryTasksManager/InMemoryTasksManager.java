@@ -40,7 +40,7 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
     }
 
     // получение приоритетного списка + его конвертация из TreeSet в ArrayList
-    private List<Task> getPrioritizedTasks() {
+    public List<Task> getPrioritizedTasks() {
 
         return new ArrayList<>(prioritizedTasks);
 
@@ -85,6 +85,27 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
     public int compare(Task o1, Task o2) {
 
         return o1.getStartTime().compareTo(o2.getStartTime());
+
+    }
+
+    @Override
+    public Map<Integer, Task> getTasksByID() {
+
+        return tasks;
+
+    }
+
+    @Override
+    public Map<Integer, Epic> getEpicsByID() {
+
+        return epics;
+
+    }
+
+    @Override
+    public Map<Integer, Subtask> getSubtasksByID() {
+
+        return subtasks;
 
     }
 

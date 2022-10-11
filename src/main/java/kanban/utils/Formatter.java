@@ -1,5 +1,7 @@
 package kanban.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.enums.TaskState;
@@ -86,6 +88,15 @@ public class Formatter {
 
         else
             throw new IllegalArgumentException("Данный формат таска не поддерживается");
+
+    }
+
+    // преобразование в GSON
+    public static Gson createGson() {
+
+        return new GsonBuilder()
+                .registerTypeAdapter(Instant.class, new InstantAdapter())
+                .create();
 
     }
 

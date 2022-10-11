@@ -26,9 +26,9 @@ public class Managers {
 
     }
 
-    public static FileBackedTasksManager getDefaultFileBackedManager(Path filePath) {
+    public static FileBackedTasksManager getDefaultFileBackedManager() {
 
-        return new FileBackedTasksManager(filePath);
+        return new FileBackedTasksManager();
 
     }
 

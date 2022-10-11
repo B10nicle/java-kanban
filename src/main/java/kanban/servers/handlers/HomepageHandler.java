@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.FileInputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Random;
@@ -17,11 +16,11 @@ import java.io.File;
 public class HomepageHandler implements HttpHandler {
 
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpExchange exchange) throws IOException {
 
-        System.out.println("Началась обработка стартовой страницы");
+        System.out.println("Началась обработка стартовой страницы.");
 
-        httpExchange.getResponseHeaders().set("Content-Type", "image/gif");
+        exchange.getResponseHeaders().set("Content-Type", "image/gif");
 
         ArrayList<File> homepages = new ArrayList<>();
 
@@ -35,15 +34,15 @@ public class HomepageHandler implements HttpHandler {
 
         var fileInputStream = new FileInputStream(homepages.get(randomNumber));
 
-        var response = fileInputStream.readAllBytes();
+        try (fileInputStream; var os = exchange.getResponseBody()) {
 
-        httpExchange.sendResponseHeaders(200, 0);
+            var response = fileInputStream.readAllBytes();
 
-        try (OutputStream os = httpExchange.getResponseBody()) {
+            exchange.sendResponseHeaders(200, 0);
+
             os.write(response);
-        }
 
-        fileInputStream.close();
+        }
 
     }
 

@@ -4,6 +4,7 @@ import kanban.managers.taskManagers.inMemoryTasksManager.InMemoryTasksManager;
 import kanban.managers.taskManagers.exceptions.ManagerSaveException;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.enums.TaskType;
+import kanban.managers.Managers;
 import kanban.utils.Formatter;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
@@ -19,11 +20,7 @@ import java.io.*;
 
 public class FileBackedTasksManager extends InMemoryTasksManager implements TasksManager {
 
-    private final Path filePath;
-
-    public FileBackedTasksManager(Path filePath) {
-        this.filePath = filePath;
-    }
+    private static final Path filePath = Path.of("src/main/resources/results.csv");
 
     @Override
     public Task createTask(Task task) {
@@ -174,15 +171,15 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
     }
 
     // загрузка из файла
-    public static FileBackedTasksManager load(Path path) {
+    public static FileBackedTasksManager load(Path filePath) {
 
-        var fileBackedTasksManager = new FileBackedTasksManager(path);
+        var fileBackedTasksManager = Managers.getDefaultFileBackedManager();
 
         int initialID = 0;
 
         try {
 
-            var fileName = Files.readString(path);
+            var fileName = Files.readString(filePath);
 
             var lines = fileName.split("\n");
 

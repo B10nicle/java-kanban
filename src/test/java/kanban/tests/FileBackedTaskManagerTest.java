@@ -19,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FileBackedTaskManagerTest extends TasksManagerTest {
 
-    private Path filePath = Path.of("src/test/resources/resultsTest.csv");
+    private Path filePath = Path.of("src/main/resources/results.csv");
 
     @BeforeEach
     public void loadManager() {
 
-        manager = Managers.getDefaultFileBackedManager(filePath);
+        manager = Managers.getDefaultFileBackedManager();
 
     }
 

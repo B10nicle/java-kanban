@@ -532,6 +532,7 @@ public abstract class TasksManagerTest {
                         + task2.getId() + ","
                         + task3.getId() + ",",
                 Formatter.historyToString(manager));
+
     }
 
     @Test

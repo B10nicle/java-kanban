@@ -1,4 +1,4 @@
-package kanban.servers;
+package kanban.servers.KV;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
