@@ -12,7 +12,6 @@ import java.util.Objects;
 
 public class Subtask extends Task {
 
-    private final TaskType taskType;
     private final int epicID;
 
     public Subtask(String name,

@@ -17,7 +17,6 @@ public class Epic extends Task {
 
     private Instant endTime = Instant.ofEpochSecond(0);
     private final ArrayList<Integer> subtasks;
-    private final TaskType taskType;
 
     public Epic(String name,
                 String description,

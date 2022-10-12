@@ -352,7 +352,9 @@ public class HttpTaskServer {
     }
 
     public static void main(String[] args) throws IOException{
+
         new HttpTaskServer(FileBackedTasksManager.load(Path.of("src/main/resources/results.csv")));
+
     }
 
 }

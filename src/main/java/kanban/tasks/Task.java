@@ -12,9 +12,9 @@ import java.util.Objects;
 
 public class Task {
 
-    protected final transient TaskType taskType;
     protected final String description;
     protected TaskState taskState;
+    protected TaskType taskType;
     protected final String name;
     protected Instant startTime;
     protected long duration;
