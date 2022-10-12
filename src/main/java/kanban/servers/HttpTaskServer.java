@@ -1,6 +1,7 @@
 package kanban.servers;
 
 import kanban.managers.taskManagers.TasksManager;
+import kanban.managers.taskManagers.FileBackedTasksManager;
 import kanban.servers.handlers.HomepageHandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -14,6 +15,7 @@ import kanban.tasks.Task;
 import java.nio.charset.StandardCharsets;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.regex.Pattern;
 import java.io.OutputStream;
 import java.io.IOException;
@@ -89,7 +91,7 @@ public class HttpTaskServer {
 
                         if (Pattern.matches("^/tasks/task$", path)) {
 
-                            var tasksToJson = gson.toJson(manager.getTasksByID());
+                            var tasksToJson = gson.toJson(manager.getTasks());
 
                             if (!tasksToJson.isEmpty()) {
 
@@ -108,7 +110,7 @@ public class HttpTaskServer {
 
                         if (Pattern.matches("^/tasks/epic$", path)) {
 
-                            var epicsToJson = gson.toJson(manager.getEpicsByID());
+                            var epicsToJson = gson.toJson(manager.getEpics());
 
                             if (!epicsToJson.isEmpty()) {
 
@@ -127,7 +129,7 @@ public class HttpTaskServer {
 
                         if (Pattern.matches("^/tasks/subtask$", path)) {
 
-                            var subtasksToJson = gson.toJson(manager.getSubtasksByID());
+                            var subtasksToJson = gson.toJson(manager.getSubtasks());
 
                             if (!subtasksToJson.isEmpty()) {
 
@@ -148,7 +150,7 @@ public class HttpTaskServer {
 
                             int id = Integer.parseInt(path.replaceFirst("/tasks/task/", ""));
 
-                            var taskByIDToJson = gson.toJson(manager.getTasks().get(id - 1));
+                            var taskByIDToJson = gson.toJson(manager.getTasks().get(id));
 
                             if (!taskByIDToJson.isEmpty()) {
 
@@ -188,7 +190,7 @@ public class HttpTaskServer {
 
                             int id = Integer.parseInt(path.replaceFirst("/tasks/subtask/epic/", ""));
 
-                            var subtaskEpicToJson = gson.toJson(manager.getSubtasks().get(id - 1));
+                            var subtaskEpicToJson = gson.toJson(manager.getSubtasks().get(id));
 
                             if (!subtaskEpicToJson.isEmpty()) {
 
@@ -218,7 +220,7 @@ public class HttpTaskServer {
 
                             responseCode = 200;
 
-                            if (!manager.getTasksByID().containsKey(task.getId())) {
+                            if (!manager.getTasks().containsKey(task.getId())) {
 
                                 manager.createTask(task);
                                 System.out.println("Задача #" + task.getId() + " создана.\n" + body);
@@ -240,7 +242,7 @@ public class HttpTaskServer {
 
                             responseCode = 200;
 
-                            if (!manager.getEpicsByID().containsKey(epic.getId())) {
+                            if (!manager.getEpics().containsKey(epic.getId())) {
 
                                 manager.createEpic(epic);
                                 System.out.println("Задача #" + epic.getId() + " создана.\n" + body);
@@ -262,7 +264,7 @@ public class HttpTaskServer {
 
                             responseCode = 200;
 
-                            if (!manager.getSubtasksByID().containsKey(subtask.getId())) {
+                            if (!manager.getSubtasks().containsKey(subtask.getId())) {
 
                                 manager.createSubtask(subtask);
                                 System.out.println("Задача #" + subtask.getId() + " создана.\n" + body);
@@ -294,21 +296,21 @@ public class HttpTaskServer {
 
                             int id = Integer.parseInt(path.replaceFirst("/tasks/task/", ""));
 
-                            if (manager.getTasksByID().containsKey(id)) {
+                            if (manager.getTasks().containsKey(id)) {
 
                                 manager.removeTask(id);
                                 System.out.println("Задача #" + id + " удалена.\n");
 
                             }
 
-                            if (manager.getEpicsByID().containsKey(id)) {
+                            if (manager.getEpics().containsKey(id)) {
 
                                 manager.removeEpic(id);
                                 System.out.println("Задача #" + id + " удалена.\n");
 
                             }
 
-                            if (manager.getSubtasksByID().containsKey(id)) {
+                            if (manager.getSubtasks().containsKey(id)) {
 
                                 manager.removeSubtask(id);
                                 System.out.println("Задача #" + id + " удалена.\n");
@@ -347,6 +349,10 @@ public class HttpTaskServer {
 
         }
 
+    }
+
+    public static void main(String[] args) throws IOException{
+        new HttpTaskServer(FileBackedTasksManager.load(Path.of("src/main/resources/results.csv")));
     }
 
 }

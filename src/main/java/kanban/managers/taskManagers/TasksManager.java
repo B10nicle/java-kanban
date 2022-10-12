@@ -4,7 +4,6 @@ import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 import kanban.tasks.Epic;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,23 +13,14 @@ import java.util.Map;
 
 public interface TasksManager {
 
-    // получение таска по ID
-    Map<Integer, Task> getTasksByID();
-
-    // получение эпика по ID
-    Map<Integer, Epic> getEpicsByID();
-
-    // получение сабтаска по ID
-    Map<Integer, Subtask> getSubtasksByID();
-
     // получение списка всех тасков
-    List<Task> getTasks();
+    Map<Integer, Task> getTasks();
 
     // получение списка всех эпиков
-    List<Epic> getEpics();
+    Map<Integer, Epic> getEpics();
 
     // получение списка всех сабтасков
-    List<Subtask> getSubtasks();
+    Map<Integer, Subtask> getSubtasks();
 
     // создание таска
     Task createTask(Task task);
@@ -88,5 +78,8 @@ public interface TasksManager {
 
     // печать приоритетного списка
     void printPrioritizedTasks();
+
+    // печать истории
+    void printHistory();
 
 }

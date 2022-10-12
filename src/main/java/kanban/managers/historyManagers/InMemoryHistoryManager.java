@@ -1,6 +1,5 @@
-package kanban.managers.historyManagers.inMemoryHistoryManager;
+package kanban.managers.historyManagers;
 
-import kanban.managers.historyManagers.HistoryManager;
 import kanban.tasks.Task;
 
 import java.util.HashMap;

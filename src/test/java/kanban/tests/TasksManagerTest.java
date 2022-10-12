@@ -1,6 +1,6 @@
 package kanban.tests;
 
-import kanban.managers.historyManagers.inMemoryHistoryManager.InMemoryHistoryManager;
+import kanban.managers.historyManagers.InMemoryHistoryManager;
 import kanban.managers.taskManagers.exceptions.IntersectionException;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
@@ -15,8 +15,10 @@ import kanban.tasks.Task;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class TasksManagerTest {
 
+    private final Map<Integer, Task> emptyMap = new HashMap<>();
     private final List<Task> emptyList = new ArrayList<>();
     protected TasksManager manager;
 
@@ -54,7 +57,7 @@ public abstract class TasksManagerTest {
 
         var task1 = manager.createTask(newTask());
 
-        assertEquals(List.of(task1).hashCode(), manager.getTasks().hashCode());
+        assertEquals(Map.of(task1.getId(), task1).hashCode(), manager.getTasks().hashCode());
 
     }
 
@@ -64,7 +67,7 @@ public abstract class TasksManagerTest {
         var epic1 = manager.createEpic(newEpic());
         var subtask1 = manager.createSubtask(newSubtask(epic1));
 
-        assertEquals(List.of(subtask1).hashCode(), manager.getSubtasks().hashCode());
+        assertEquals(Map.of(subtask1.getId(), subtask1).hashCode(), manager.getSubtasks().hashCode());
 
     }
 
@@ -73,7 +76,7 @@ public abstract class TasksManagerTest {
 
         var epic1 = manager.createEpic(newEpic());
 
-        assertEquals(List.of(epic1).hashCode(), manager.getEpics().hashCode());
+        assertEquals(Map.of(epic1.getId(), epic1).hashCode(), manager.getEpics().hashCode());
 
     }
 
@@ -162,7 +165,7 @@ public abstract class TasksManagerTest {
         var task1 = manager.createTask(newTask());
         var tasks = manager.getTasks();
 
-        assertEquals(List.of(task1), tasks);
+        assertEquals(Map.of(task1.getId(), task1), tasks);
 
     }
 
@@ -172,7 +175,7 @@ public abstract class TasksManagerTest {
         var epic1 = manager.createEpic(newEpic());
         var epics = manager.getEpics();
 
-        assertEquals(List.of(epic1), epics);
+        assertEquals(Map.of(epic1.getId(), epic1), epics);
 
     }
 
@@ -183,7 +186,7 @@ public abstract class TasksManagerTest {
         var subtask1 = manager.createSubtask(newSubtask(epic1));
         var subtasks = manager.getSubtasks();
 
-        assertEquals(List.of(subtask1), subtasks);
+        assertEquals(Map.of(subtask1.getId(), subtask1), subtasks);
 
     }
 
@@ -226,7 +229,7 @@ public abstract class TasksManagerTest {
 
         manager.removeSubtask(42);
 
-        assertEquals(List.of(subtask1), manager.getSubtasks());
+        assertEquals(Map.of(subtask1.getId(), subtask1), manager.getSubtasks());
 
     }
 
@@ -271,9 +274,9 @@ public abstract class TasksManagerTest {
 
         manager.removeAllTasksEpicsSubtasks();
 
-        assertEquals(emptyList, manager.getTasks());
-        assertEquals(emptyList, manager.getEpics());
-        assertEquals(emptyList, manager.getSubtasks());
+        assertEquals(emptyMap, manager.getTasks());
+        assertEquals(emptyMap, manager.getEpics());
+        assertEquals(emptyMap, manager.getSubtasks());
 
     }
 
@@ -284,7 +287,7 @@ public abstract class TasksManagerTest {
 
         manager.removeTask(task1.getId());
 
-        assertEquals(emptyList, manager.getTasks());
+        assertEquals(emptyMap, manager.getTasks());
 
     }
 
@@ -312,7 +315,7 @@ public abstract class TasksManagerTest {
 
         manager.removeTask(42);
 
-        assertEquals(List.of(task1), manager.getTasks());
+        assertEquals(Map.of(task1.getId(), task1), manager.getTasks());
 
     }
 
@@ -324,7 +327,7 @@ public abstract class TasksManagerTest {
 
         manager.removeEpic(epic1.getId());
 
-        assertEquals(emptyList, manager.getEpics());
+        assertEquals(emptyMap, manager.getEpics());
 
     }
 
@@ -348,7 +351,7 @@ public abstract class TasksManagerTest {
 
         manager.removeEpic(42);
 
-        assertEquals(List.of(epic1), manager.getEpics());
+        assertEquals(Map.of(epic1.getId(), epic1), manager.getEpics());
 
     }
 

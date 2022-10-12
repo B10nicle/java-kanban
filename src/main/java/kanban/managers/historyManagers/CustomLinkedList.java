@@ -1,4 +1,4 @@
-package kanban.managers.historyManagers.inMemoryHistoryManager;
+package kanban.managers.historyManagers;
 
 import kanban.tasks.Task;
 

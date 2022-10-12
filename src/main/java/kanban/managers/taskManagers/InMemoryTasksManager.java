@@ -1,4 +1,4 @@
-package kanban.managers.taskManagers.inMemoryTasksManager;
+package kanban.managers.taskManagers;
 
 import kanban.managers.taskManagers.exceptions.IntersectionException;
 import kanban.managers.historyManagers.HistoryManager;
@@ -16,11 +16,13 @@ import java.util.*;
 
 public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
 
+    protected Map<Integer, Task> allTasksEpicsSubtasks;
     protected static HistoryManager historyManager;
     protected Map<Integer, Subtask> subtasks;
     private Set<Task> prioritizedTasks;
     protected Map<Integer, Task> tasks;
     protected Map<Integer, Epic> epics;
+
     protected int id;
 
     public InMemoryTasksManager() {
@@ -89,44 +91,23 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
     }
 
     @Override
-    public Map<Integer, Task> getTasksByID() {
+    public Map<Integer, Task> getTasks() {
 
         return tasks;
 
     }
 
     @Override
-    public Map<Integer, Epic> getEpicsByID() {
+    public Map<Integer, Epic> getEpics() {
 
         return epics;
 
     }
 
     @Override
-    public Map<Integer, Subtask> getSubtasksByID() {
+    public Map<Integer, Subtask> getSubtasks() {
 
         return subtasks;
-
-    }
-
-    @Override
-    public List<Task> getTasks() {
-
-        return new ArrayList<>(tasks.values());
-
-    }
-
-    @Override
-    public List<Epic> getEpics() {
-
-        return new ArrayList<>(epics.values());
-
-    }
-
-    @Override
-    public List<Subtask> getSubtasks() {
-
-        return new ArrayList<>(subtasks.values());
 
     }
 
@@ -321,6 +302,13 @@ public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
     public List<Task> getHistory() {
 
         return historyManager.getHistory();
+
+    }
+
+    @Override
+    public void printHistory() {
+
+        historyManager.getHistory().forEach(System.out::println);
 
     }
 

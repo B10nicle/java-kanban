@@ -32,6 +32,13 @@ public class KVServer {
 
     }
 
+    public void stop() {
+
+        server.stop(0);
+        System.out.println("KVServer остановлен на " + PORT + " порту!");
+
+    }
+
     private void load(HttpExchange h) throws IOException {
 
         try {

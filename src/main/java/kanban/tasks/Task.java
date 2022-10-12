@@ -12,8 +12,8 @@ import java.util.Objects;
 
 public class Task {
 
+    protected final transient TaskType taskType;
     protected final String description;
-    protected final TaskType taskType;
     protected TaskState taskState;
     protected final String name;
     protected Instant startTime;

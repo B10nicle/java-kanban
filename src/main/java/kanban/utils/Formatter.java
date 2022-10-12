@@ -50,9 +50,9 @@ public class Formatter {
         List<Task> allTasks = new ArrayList<>();
         var result = new StringBuilder();
 
-        allTasks.addAll(tasksManager.getTasks());
-        allTasks.addAll(tasksManager.getEpics());
-        allTasks.addAll(tasksManager.getSubtasks());
+        allTasks.addAll(tasksManager.getTasks().values());
+        allTasks.addAll(tasksManager.getEpics().values());
+        allTasks.addAll(tasksManager.getSubtasks().values());
 
         for (var task : allTasks)
             result.append(task.toString()).append("\n");

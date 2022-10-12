@@ -1,8 +1,7 @@
-package kanban.managers.taskManagers.httpTasksManager;
+package kanban.managers.taskManagers;
 
-import kanban.managers.taskManagers.fileBackedTasksManager.FileBackedTasksManager;
 import com.google.gson.reflect.TypeToken;
-import kanban.servers.KVTaskClient;
+import kanban.clients.KVTaskClient;
 import kanban.utils.Formatter;
 import com.google.gson.Gson;
 import kanban.tasks.Subtask;
@@ -37,19 +36,19 @@ public class HttpTasksManager extends FileBackedTasksManager {
     @Override
     public void save() {
 
-        var PrioritizedTasks = gson.toJson(getPrioritizedTasks());
-        client.save("tasks", PrioritizedTasks);
+        var prioritizedTasks = gson.toJson(getPrioritizedTasks());
+        client.save("tasks", prioritizedTasks);
 
         var history = gson.toJson(getHistory());
         client.save("tasks/history", history);
 
-        var tasks = gson.toJson(getTasksByID());
+        var tasks = gson.toJson(getTasks());
         client.save("tasks/task", tasks);
 
-        var epics = gson.toJson(getEpicsByID());
+        var epics = gson.toJson(getEpics());
         client.save("tasks/epic", epics);
 
-        var subtasks = gson.toJson(getSubtasksByID());
+        var subtasks = gson.toJson(getSubtasks());
         client.save("tasks/subtask", subtasks);
 
     }
@@ -77,7 +76,7 @@ public class HttpTasksManager extends FileBackedTasksManager {
 
         Map<Integer, Task> tasks = gson.fromJson(jsonTasks, taskType);
 
-        getTasksByID().putAll(tasks);
+        getTasks().putAll(tasks);
 
 
         var jsonEpics = getClient().load("tasks/epic");
@@ -85,7 +84,7 @@ public class HttpTasksManager extends FileBackedTasksManager {
 
         Map<Integer, Epic> epics = gson.fromJson(jsonEpics, epicType);
 
-        getEpicsByID().putAll(epics);
+        getEpics().putAll(epics);
 
 
         var jsonSubtasks = getClient().load("tasks/subtask");
@@ -93,7 +92,7 @@ public class HttpTasksManager extends FileBackedTasksManager {
 
         Map<Integer, Subtask> subtasks = gson.fromJson(jsonSubtasks, subtaskType);
 
-        getSubtasksByID().putAll(subtasks);
+        getSubtasks().putAll(subtasks);
 
     }
 

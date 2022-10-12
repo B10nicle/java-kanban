@@ -1,14 +1,14 @@
 package kanban.tests;
 
 import kanban.managers.Managers;
-import kanban.managers.taskManagers.fileBackedTasksManager.FileBackedTasksManager;
+import kanban.managers.taskManagers.FileBackedTasksManager;
 import kanban.managers.taskManagers.exceptions.ManagerSaveException;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,9 +40,9 @@ public class FileBackedTaskManagerTest extends TasksManagerTest {
         manager.getSubtask(subtask1.getId());
         manager = FileBackedTasksManager.load(filePath);
 
-        assertEquals(List.of(task1), manager.getTasks());
-        assertEquals(List.of(epic1), manager.getEpics());
-        assertEquals(List.of(subtask1), manager.getSubtasks());
+        assertEquals(Map.of(task1.getId(), task1), manager.getTasks());
+        assertEquals(Map.of(epic1.getId(), epic1), manager.getEpics());
+        assertEquals(Map.of(subtask1.getId(), subtask1), manager.getSubtasks());
         assertEquals(List.of(task1, epic1, subtask1), manager.getHistory());
 
     }
