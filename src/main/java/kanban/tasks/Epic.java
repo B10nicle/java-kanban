@@ -48,8 +48,8 @@ public class Epic extends Task {
     // обновление состояния эпика
     public void updateEpicState(Map<Integer, Subtask> subs) {
 
-        Instant startTime = subs.get(subtasks.get(0)).getStartTime();
-        Instant endTime = subs.get(subtasks.get(0)).getEndTime();
+        var startTime = subs.get(subtasks.get(0)).getStartTime();
+        var endTime = subs.get(subtasks.get(0)).getEndTime();
 
         int isNew = 0;
         int isDone = 0;
@@ -76,12 +76,17 @@ public class Epic extends Task {
         this.duration = Duration.between(startTime, endTime).toMinutes();
 
         if (getSubtasks().size() == isNew) {
+
             setTaskState(TaskState.NEW);
+
             return;
 
         } else if (getSubtasks().size() == isDone) {
+
             setTaskState(TaskState.DONE);
+
             return;
+
         }
 
         setTaskState(TaskState.IN_PROGRESS);

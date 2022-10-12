@@ -3,12 +3,12 @@ package kanban.servers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import java.nio.charset.StandardCharsets;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Постман: https://www.getpostman.com/collections/a83b61d9e1c81c10575c
@@ -16,10 +16,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class KVServer {
 
+    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private final Map<String, String> data = new HashMap<>();
-    public static final int PORT = 8078;
+    public static final int PORT = 8056;
     private final HttpServer server;
-    private final String apiToken;
+    private final String token;
 
     public KVServer() throws IOException {
 
@@ -27,7 +28,7 @@ public class KVServer {
         server.createContext("/register", this::register);
         server.createContext("/save", this::save);
         server.createContext("/load", this::load);
-        apiToken = generateApiToken();
+        token = generateApiToken();
 
     }
 
@@ -167,7 +168,7 @@ public class KVServer {
 
             if ("GET".equals(h.getRequestMethod())) {
 
-                sendText(h, apiToken);
+                sendText(h, token);
 
             } else {
 
@@ -188,7 +189,7 @@ public class KVServer {
 
         System.out.println("Запускаем сервер на порту " + PORT);
         System.out.println("Открой в браузере http://localhost:" + PORT + "/");
-        System.out.println("API_TOKEN: " + apiToken);
+        System.out.println("API_TOKEN: " + token);
         server.start();
 
     }
@@ -204,20 +205,20 @@ public class KVServer {
         String rawQuery = h.getRequestURI().getRawQuery();
 
         return rawQuery != null
-                && (rawQuery.contains("API_TOKEN=" + apiToken)
+                && (rawQuery.contains("API_TOKEN=" + token)
                 || rawQuery.contains("API_TOKEN=DEBUG"));
 
     }
 
     protected String readText(HttpExchange h) throws IOException {
 
-        return new String(h.getRequestBody().readAllBytes(), UTF_8);
+        return new String(h.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
 
     }
 
     protected void sendText(HttpExchange h, String text) throws IOException {
 
-        byte[] resp = text.getBytes(UTF_8);
+        byte[] resp = text.getBytes(DEFAULT_CHARSET);
         h.getResponseHeaders().add("Content-Type", "application/json");
         h.sendResponseHeaders(200, resp.length);
         h.getResponseBody().write(resp);
