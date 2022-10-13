@@ -148,7 +148,7 @@ public class HttpTasksServerTest {
     void getTaskTest() throws IOException, InterruptedException {
 
         var client = HttpClient.newHttpClient();
-        var url = URI.create("http://localhost:8080/tasks/task/2");
+        var url = URI.create("http://localhost:8080/tasks/task/1");
 
         var request = HttpRequest.newBuilder()
                 .uri(url)
@@ -186,7 +186,7 @@ public class HttpTasksServerTest {
         List<Task> tasks = gson.fromJson(response.body(), type);
 
         assertNotNull(tasks);
-        assertEquals(2, tasks.size());
+        assertEquals(4, tasks.size());
 
     }
 
@@ -217,7 +217,7 @@ public class HttpTasksServerTest {
     void deleteTaskTest() throws IOException, InterruptedException {
 
         var client = HttpClient.newHttpClient();
-        var url = URI.create("http://localhost:8080/tasks/task/2");
+        var url = URI.create("http://localhost:8080/tasks/task/1");
 
         var request = HttpRequest.newBuilder()
                 .uri(url)

@@ -325,9 +325,9 @@ public class HttpTasksServer {
 
                     case "DELETE":
 
-                        System.out.println("DELETE: началась обработка /tasks/task запроса от клиента.\n");
-
                         if (Pattern.matches(regexRoots.get(1), path)) {
+
+                            System.out.println("DELETE: началась обработка /tasks/task запроса от клиента.\n");
 
                             manager.removeAllTasksEpicsSubtasks();
 
