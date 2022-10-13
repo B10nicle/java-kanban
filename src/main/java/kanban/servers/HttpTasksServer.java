@@ -62,7 +62,6 @@ public class HttpTasksServer {
 
     }
 
-
     class TasksHandler implements HttpHandler {
 
         @Override

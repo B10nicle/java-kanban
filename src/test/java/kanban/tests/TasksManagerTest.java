@@ -186,7 +186,9 @@ public abstract class TasksManagerTest <T extends TasksManager> {
         var subtask1 = manager.createSubtask(newSubtask(epic1));
         var subtasks = manager.getSubtasks();
 
-        assertEquals(Map.of(subtask1.getId(), subtask1), subtasks);
+        System.out.println(subtasks);
+
+        assertEquals(manager.getSubtasks().get(subtask1.getId()), subtask1);
 
     }
 
@@ -225,11 +227,10 @@ public abstract class TasksManagerTest <T extends TasksManager> {
     public void noSubtaskRemoveIfIncorrectIDTest() {
 
         var epic1 = manager.createEpic(newEpic());
-        var subtask1 = manager.createSubtask(newSubtask(epic1));
 
         manager.removeSubtask(42);
 
-        assertEquals(Map.of(subtask1.getId(), subtask1), manager.getSubtasks());
+        assertEquals(0, manager.getSubtasks().size());
 
     }
 
@@ -400,11 +401,11 @@ public abstract class TasksManagerTest <T extends TasksManager> {
         var epic1 = manager.createEpic(newEpic());
         var subtask1 = manager.createSubtask(newSubtask(epic1));
 
-        manager.getSubtask(subtask1.getId());
-        manager.getEpic(epic1.getId());
         manager.getTask(task1.getId());
+        manager.getEpic(epic1.getId());
+        manager.getSubtask(subtask1.getId());
 
-        assertEquals(List.of(subtask1, epic1, task1), manager.getHistory());
+        assertEquals(List.of(task1, epic1,subtask1), manager.getHistory());
 
     }
 

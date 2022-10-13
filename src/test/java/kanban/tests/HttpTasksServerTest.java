@@ -31,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Oleg Khilko
  */
 
+// запустить Main, а после тесты
+
 public class HttpTasksServerTest {
 
     private HttpTasksServer server;
@@ -214,45 +216,6 @@ public class HttpTasksServerTest {
     }
 
     @Test
-    void deleteTaskTest() throws IOException, InterruptedException {
-
-        var client = HttpClient.newHttpClient();
-        var url = URI.create("http://localhost:8080/tasks/task/1");
-
-        var request = HttpRequest.newBuilder()
-                .uri(url)
-                .DELETE()
-                .build();
-
-        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        assertEquals(200, response.statusCode());
-
-    }
-
-    @Test
-    void deleteTasksTest() throws IOException, InterruptedException {
-
-        var client = HttpClient.newHttpClient();
-        var url = URI.create("http://localhost:8080/tasks/task");
-
-        var request = HttpRequest.newBuilder()
-                .uri(url)
-                .DELETE()
-                .build();
-
-        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        assertEquals(200, response.statusCode());
-
-        var type = new TypeToken<Map<Integer, Task>>(){}.getType();
-        Map<Integer, Task> tasks = gson.fromJson(response.body(), type);
-
-        assertNull(tasks);
-
-    }
-
-    @Test
     void createTaskTest() throws IOException, InterruptedException {
 
         var client = HttpClient.newHttpClient();
@@ -312,6 +275,45 @@ public class HttpTasksServerTest {
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         assertEquals(200, response.statusCode());
+
+    }
+
+    @Test
+    void deleteTaskTest() throws IOException, InterruptedException {
+
+        var client = HttpClient.newHttpClient();
+        var url = URI.create("http://localhost:8080/tasks/task/1");
+
+        var request = HttpRequest.newBuilder()
+                .uri(url)
+                .DELETE()
+                .build();
+
+        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertEquals(200, response.statusCode());
+
+    }
+
+    @Test
+    void deleteTasksTest() throws IOException, InterruptedException {
+
+        var client = HttpClient.newHttpClient();
+        var url = URI.create("http://localhost:8080/tasks/task");
+
+        var request = HttpRequest.newBuilder()
+                .uri(url)
+                .DELETE()
+                .build();
+
+        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertEquals(200, response.statusCode());
+
+        var type = new TypeToken<Map<Integer, Task>>(){}.getType();
+        Map<Integer, Task> tasks = gson.fromJson(response.body(), type);
+
+        assertNull(tasks);
 
     }
 

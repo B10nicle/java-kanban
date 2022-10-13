@@ -1,6 +1,5 @@
 package kanban.clients;
 
-import kanban.servers.KVServer;
 import kanban.utils.Formatter;
 
 import java.nio.charset.StandardCharsets;
@@ -107,18 +106,6 @@ public class KVTaskClient {
 
         return response != null ? response.body() : "KVTaskClient.load() is greeting you";
 
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        var kvServer = new KVServer();
-        kvServer.start();
-
-        var kvTaskClient = new KVTaskClient();
-        kvTaskClient.save("/tasks", "{hello:there,today:is,good:42}");
-        kvTaskClient.load("/tasks");
-
-        kvServer.stop();
     }
 
 }

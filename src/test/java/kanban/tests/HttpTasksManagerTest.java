@@ -32,6 +32,18 @@ public class HttpTasksManagerTest extends TasksManagerTest<HttpTasksManager> {
 
         manager = new HttpTasksManager();
 
+    }
+
+    @AfterEach
+    void serverStop() {
+
+        server.stop();
+
+    }
+
+    @Test
+    void loadFromServerTest() {
+
         var task1 = manager.createTask(
                 new Task("Task1", "Task1D", Instant.ofEpochSecond(5000), 5));
 
@@ -49,18 +61,6 @@ public class HttpTasksManagerTest extends TasksManagerTest<HttpTasksManager> {
         manager.getSubtask(subtask1.getId());
         manager.getSubtask(subtask2.getId());
 
-    }
-
-    @AfterEach
-    void serverStop() {
-
-        server.stop();
-
-    }
-
-    @Test
-    void loadFromServerTest() {
-
         manager.load();
         var tasks = manager.getTasks();
 
@@ -70,7 +70,7 @@ public class HttpTasksManagerTest extends TasksManagerTest<HttpTasksManager> {
         var history = manager.getHistory();
 
         assertNotNull(history);
-        assertEquals(3, history.size());
+        assertEquals(4, history.size());
 
     }
 

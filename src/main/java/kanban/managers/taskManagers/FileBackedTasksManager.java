@@ -10,7 +10,6 @@ import kanban.tasks.Epic;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Instant;
 import java.io.*;
 
 /**
@@ -221,33 +220,6 @@ public class FileBackedTasksManager extends InMemoryTasksManager implements Task
         }
 
         return fileBackedTasksManager;
-
-    }
-
-    public static void main(String[] args) {
-
-        var managerBefore = Managers.getDefaultFileBackedManager();
-
-        var task1 = managerBefore.createTask(
-                new Task("Task1", "Task1D", Instant.ofEpochSecond(5000), 5));
-
-        var epic1 = managerBefore.createEpic(
-                new Epic("Epic1", "Epic1D", TaskType.EPIC));
-
-        var subtask1 = managerBefore.createSubtask(
-                new Subtask("Subtask1", "Subtask1D", Instant.EPOCH, 50, epic1.getId()));
-
-        var subtask2 = managerBefore.createSubtask(
-                new Subtask("Subtask2", "Subtask2D", Instant.ofEpochSecond(11111), 50, epic1.getId()));
-
-        managerBefore.getTask(task1.getId());
-        managerBefore.getEpic(epic1.getId());
-        managerBefore.getSubtask(subtask1.getId());
-        managerBefore.getSubtask(subtask2.getId());
-        managerBefore.getHistory();
-
-        var managerAfter = FileBackedTasksManager.load(Path.of("src/main/resources/results.csv"));
-        managerAfter.printHistory();
 
     }
 
