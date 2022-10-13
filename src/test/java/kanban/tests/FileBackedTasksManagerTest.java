@@ -1,10 +1,10 @@
 package kanban.tests;
 
-import kanban.managers.Managers;
-import kanban.managers.taskManagers.FileBackedTasksManager;
 import kanban.managers.taskManagers.exceptions.ManagerSaveException;
+import kanban.managers.taskManagers.FileBackedTasksManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import kanban.managers.Managers;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -17,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Oleg Khilko
  */
 
-public class FileBackedTaskManagerTest extends TasksManagerTest {
+public class FileBackedTasksManagerTest extends TasksManagerTest<FileBackedTasksManager> {
 
     private Path filePath = Path.of("src/main/resources/results.csv");
 
     @BeforeEach
-    public void loadManager() {
+    public void loadInitialConditions() {
 
         manager = Managers.getDefaultFileBackedManager();
 

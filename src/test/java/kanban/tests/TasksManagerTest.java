@@ -1,7 +1,7 @@
 package kanban.tests;
 
-import kanban.managers.historyManagers.InMemoryHistoryManager;
 import kanban.managers.taskManagers.exceptions.IntersectionException;
+import kanban.managers.historyManagers.InMemoryHistoryManager;
 import kanban.managers.historyManagers.HistoryManager;
 import kanban.managers.taskManagers.TasksManager;
 import kanban.tasks.enums.TaskState;
@@ -26,11 +26,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Oleg Khilko
  */
 
-public abstract class TasksManagerTest {
+public abstract class TasksManagerTest <T extends TasksManager> {
 
     private final Map<Integer, Task> emptyMap = new HashMap<>();
     private final List<Task> emptyList = new ArrayList<>();
-    protected TasksManager manager;
+    protected T manager;
 
     protected Task newTask() {
 

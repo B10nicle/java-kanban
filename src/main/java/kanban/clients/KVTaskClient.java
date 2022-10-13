@@ -28,8 +28,6 @@ public class KVTaskClient {
         token = registerAPIToken(url);
         Formatter.createGson();
 
-        System.out.println("KVTaskClient запущен на " + PORT + " порту!");
-
     }
 
     private String registerAPIToken(String url) {

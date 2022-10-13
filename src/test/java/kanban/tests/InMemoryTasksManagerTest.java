@@ -1,5 +1,6 @@
 package kanban.tests;
 
+import kanban.managers.taskManagers.InMemoryTasksManager;
 import org.junit.jupiter.api.BeforeEach;
 import kanban.managers.Managers;
 
@@ -7,12 +8,12 @@ import kanban.managers.Managers;
  * @author Oleg Khilko
  */
 
-public class InMemoryTasksManagerTest extends TasksManagerTest {
+public class InMemoryTasksManagerTest extends TasksManagerTest<InMemoryTasksManager> {
 
     @BeforeEach
-    public void loadManager() {
+    public void loadInitialConditions() {
 
-        manager = Managers.getDefaultManager();
+        manager = new InMemoryTasksManager();
 
     }
 

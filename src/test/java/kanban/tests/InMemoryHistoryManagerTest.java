@@ -23,7 +23,7 @@ public class InMemoryHistoryManagerTest {
     private HistoryManager manager;
 
     @BeforeEach
-    public void loadManager() {
+    public void loadInitialConditions() {
 
         manager = Managers.getDefaultHistoryManager();
 

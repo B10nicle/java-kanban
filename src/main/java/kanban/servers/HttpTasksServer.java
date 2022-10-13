@@ -18,43 +18,66 @@ import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.nio.file.Path;
 
 /**
  * @author Oleg Khilko
  */
 
-public class HttpTaskServer {
+public class HttpTasksServer {
 
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private static final int PORT = 8080;
     private final TasksManager manager;
+    private final HttpServer server;
     private final Gson gson;
 
-    public HttpTaskServer(TasksManager manager) throws IOException {
+    public HttpTasksServer(TasksManager manager) throws IOException {
 
         this.manager = manager;
 
-        var httpServer = HttpServer.create();
+        server = HttpServer.create();
 
-        httpServer.bind(new InetSocketAddress(PORT), 0);
+        server.bind(new InetSocketAddress(PORT), 0);
 
-        httpServer.createContext("/tasks", new TasksHandler());
-        httpServer.createContext("/", new HomepageHandler());
+        server.createContext("/tasks", new TasksHandler());
+        server.createContext("/", new HomepageHandler());
 
         gson = Formatter.createGson();
 
-        httpServer.start();
+    }
+
+    public void start() {
+
+        server.start();
         System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
 
     }
+
+    public void stop() {
+
+        server.stop(0);
+        System.out.println("HTTP-сервер остановлен на " + PORT + " порту!");
+
+    }
+
 
     class TasksHandler implements HttpHandler {
 
         @Override
         public void handle(HttpExchange exchange) {
 
-            System.out.println("Началась обработка /tasks запроса от клиента.\n");
+            ArrayList<String> regexRoots = new ArrayList<>();
+
+            regexRoots.add("^/tasks$");
+            regexRoots.add("^/tasks/task$");
+            regexRoots.add("^/tasks/epic$");
+            regexRoots.add("^/tasks/subtask$");
+            regexRoots.add("^/tasks/task/\\d+$");
+            regexRoots.add("^/tasks/history$");
+            regexRoots.add("^/tasks/subtask/epic/\\d+$");
+            regexRoots.add("^/tasks/task/\\d+$");
 
             var path = exchange.getRequestURI().getPath();
 
@@ -70,7 +93,9 @@ public class HttpTaskServer {
 
                     case "GET":
 
-                        if (Pattern.matches("^/tasks$", path)) {
+                        if (Pattern.matches(regexRoots.get(0), path)) {
+
+                            System.out.println("GET: началась обработка /tasks запроса от клиента.\n");
 
                             var prioritizedTasksToJson = gson.toJson(manager.getPrioritizedTasks());
 
@@ -89,7 +114,9 @@ public class HttpTaskServer {
                             }
                         }
 
-                        if (Pattern.matches("^/tasks/task$", path)) {
+                        if (Pattern.matches(regexRoots.get(1), path)) {
+
+                            System.out.println("GET: началась обработка /tasks/task запроса от клиента.\n");
 
                             var tasksToJson = gson.toJson(manager.getTasks());
 
@@ -108,7 +135,9 @@ public class HttpTaskServer {
                             }
                         }
 
-                        if (Pattern.matches("^/tasks/epic$", path)) {
+                        if (Pattern.matches(regexRoots.get(2), path)) {
+
+                            System.out.println("GET: началась обработка /tasks/epic запроса от клиента.\n");
 
                             var epicsToJson = gson.toJson(manager.getEpics());
 
@@ -127,7 +156,9 @@ public class HttpTaskServer {
                             }
                         }
 
-                        if (Pattern.matches("^/tasks/subtask$", path)) {
+                        if (Pattern.matches(regexRoots.get(3), path)) {
+
+                            System.out.println("GET: началась обработка /tasks/subtask запроса от клиента.\n");
 
                             var subtasksToJson = gson.toJson(manager.getSubtasks());
 
@@ -146,7 +177,9 @@ public class HttpTaskServer {
                             }
                         }
 
-                        if (Pattern.matches("^/tasks/task/\\d$", path)) {
+                        if (Pattern.matches(regexRoots.get(4), path)) {
+
+                            System.out.println("GET: началась обработка /tasks/task/d+ запроса от клиента.\n");
 
                             int id = Integer.parseInt(path.replaceFirst("/tasks/task/", ""));
 
@@ -167,7 +200,9 @@ public class HttpTaskServer {
                             }
                         }
 
-                        if (Pattern.matches("^/tasks/history$", path)) {
+                        if (Pattern.matches(regexRoots.get(5), path)) {
+
+                            System.out.println("GET: началась обработка /tasks/history запроса от клиента.\n");
 
                             var historyToJson = gson.toJson(manager.getHistory());
 
@@ -186,7 +221,9 @@ public class HttpTaskServer {
                             }
                         }
 
-                        if (Pattern.matches("^/tasks/subtask/epic/\\d+$", path)) {
+                        if (Pattern.matches(regexRoots.get(6), path)) {
+
+                            System.out.println("GET: началась обработка /tasks/subtask/epic/d+ запроса от клиента.\n");
 
                             int id = Integer.parseInt(path.replaceFirst("/tasks/subtask/epic/", ""));
 
@@ -212,7 +249,9 @@ public class HttpTaskServer {
 
                     case "POST":
 
-                        if (Pattern.matches("^/tasks/task$", path)) {
+                        if (Pattern.matches(regexRoots.get(1), path)) {
+
+                            System.out.println("POST: началась обработка /tasks/task запроса от клиента.\n");
 
                             var inputStream = exchange.getRequestBody();
                             var body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
@@ -234,7 +273,9 @@ public class HttpTaskServer {
 
                         }
 
-                        if (Pattern.matches("^/tasks/epic$", path)) {
+                        if (Pattern.matches(regexRoots.get(2), path)) {
+
+                            System.out.println("POST: началась обработка /tasks/epic запроса от клиента.\n");
 
                             var inputStream = exchange.getRequestBody();
                             var body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
@@ -256,7 +297,9 @@ public class HttpTaskServer {
 
                         }
 
-                        if (Pattern.matches("^/tasks/subtask$", path)) {
+                        if (Pattern.matches(regexRoots.get(3), path)) {
+
+                            System.out.println("POST: началась обработка /tasks/subtask запроса от клиента.\n");
 
                             var inputStream = exchange.getRequestBody();
                             var body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
@@ -282,7 +325,9 @@ public class HttpTaskServer {
 
                     case "DELETE":
 
-                        if (Pattern.matches("^/tasks/task$", path)) {
+                        System.out.println("DELETE: началась обработка /tasks/task запроса от клиента.\n");
+
+                        if (Pattern.matches(regexRoots.get(1), path)) {
 
                             manager.removeAllTasksEpicsSubtasks();
 
@@ -292,7 +337,9 @@ public class HttpTaskServer {
 
                         }
 
-                        if (Pattern.matches("^/tasks/task/\\d+$", path)) {
+                        if (Pattern.matches(regexRoots.get(7), path)) {
+
+                            System.out.println("DELETE: началась обработка /tasks/task/d+ запроса от клиента.\n");
 
                             int id = Integer.parseInt(path.replaceFirst("/tasks/task/", ""));
 
@@ -353,7 +400,7 @@ public class HttpTaskServer {
 
     public static void main(String[] args) throws IOException{
 
-        new HttpTaskServer(FileBackedTasksManager.load(Path.of("src/main/resources/results.csv")));
+        new HttpTasksServer(FileBackedTasksManager.load(Path.of("src/main/resources/results.csv")));
 
     }
 

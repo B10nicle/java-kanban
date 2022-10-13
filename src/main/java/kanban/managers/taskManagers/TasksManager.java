@@ -13,13 +13,13 @@ import java.util.Map;
 
 public interface TasksManager {
 
-    // получение списка всех тасков
+    // получение мапы всех тасков
     Map<Integer, Task> getTasks();
 
-    // получение списка всех эпиков
+    // получение мапы всех эпиков
     Map<Integer, Epic> getEpics();
 
-    // получение списка всех сабтасков
+    // получение мапы всех сабтасков
     Map<Integer, Subtask> getSubtasks();
 
     // создание таска

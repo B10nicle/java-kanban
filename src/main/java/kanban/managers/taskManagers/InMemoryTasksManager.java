@@ -2,7 +2,6 @@ package kanban.managers.taskManagers;
 
 import kanban.managers.taskManagers.exceptions.IntersectionException;
 import kanban.managers.historyManagers.HistoryManager;
-import kanban.managers.taskManagers.TasksManager;
 import kanban.managers.Managers;
 import kanban.tasks.Subtask;
 import kanban.tasks.Epic;
@@ -16,7 +15,6 @@ import java.util.*;
 
 public class InMemoryTasksManager implements TasksManager, Comparator<Task> {
 
-    protected Map<Integer, Task> allTasksEpicsSubtasks;
     protected static HistoryManager historyManager;
     protected Map<Integer, Subtask> subtasks;
     private Set<Task> prioritizedTasks;
