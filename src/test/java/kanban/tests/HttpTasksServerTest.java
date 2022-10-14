@@ -1,5 +1,6 @@
 package kanban.tests;
 
+import kanban.managers.taskManagers.InMemoryTasksManager;
 import kanban.managers.taskManagers.TasksManager;
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,8 +32,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Oleg Khilko
  */
 
-// запустить Main, а после тесты
-
 public class HttpTasksServerTest {
 
     private HttpTasksServer server;
@@ -45,7 +44,7 @@ public class HttpTasksServerTest {
     @BeforeEach
     void loadInitialConditions() throws IOException {
 
-        TasksManager manager = Managers.getDefaultManager();
+        TasksManager manager = new InMemoryTasksManager();
         server = new HttpTasksServer(manager);
         gson = Formatter.createGson();
 
