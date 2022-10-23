@@ -15,16 +15,12 @@ public class InstantAdapter extends TypeAdapter<Instant> {
 
     @Override
     public void write(JsonWriter jsonWriter, Instant instant) throws IOException {
-
         jsonWriter.value(instant.toEpochMilli());
-
     }
 
     @Override
     public Instant read(JsonReader jsonReader) throws IOException {
-
         var timeAsString = jsonReader.nextString();
-
         var timeAsLong = Long.parseLong(timeAsString);
 
         return Instant.ofEpochMilli(timeAsLong);
