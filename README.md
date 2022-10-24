@@ -1,2 +1,2 @@
-# Kanban
+## Kanban
 Repository for homework project.
